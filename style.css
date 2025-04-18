@@ -1,0 +1,596 @@
+/* --- Huidige stijlen blijven grotendeels behouden --- */
+/* Voeg de volgende NIEUWE en AANGEPASTE stijlen toe/pas ze aan */
+
+/* ... (vorige CSS code hier) ... */
+
+/* === Styling voor Twee-Koloms Layout === */
+.layout-split .split-container {
+    display: flex;
+    flex-wrap: wrap; /* Zorgt voor fallback op mobiel */
+    align-items: center; /* Lijn items verticaal uit */
+    gap: 40px; /* Ruimte tussen tekst en afbeelding */
+}
+
+.layout-split .text-content,
+.layout-split .image-content {
+    flex: 1; /* Beide kolommen nemen 50% ruimte in principe */
+    min-width: 280px; /* Minimale breedte voor content wrapping */
+}
+
+/* Specifieke volgorde voor layout-text-left */
+.layout-text-left .text-content {
+    order: 1; /* Tekst eerst */
+}
+.layout-text-left .image-content {
+    order: 2; /* Afbeelding daarna */
+}
+
+/* Specifieke volgorde voor layout-image-left */
+.layout-image-left .image-content {
+    order: 1; /* Afbeelding eerst */
+}
+.layout-image-left .text-content {
+    order: 2; /* Tekst daarna */
+}
+
+.layout-split .image-content img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 8px; /* Afgeronde hoeken voor afbeeldingen */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1); /* Subtiele schaduw */
+    /* Placeholder styling (optioneel) */
+    background-color: #e9ecef;
+    min-height: 250px;
+}
+
+/* Aanpassing voor tekst content in split layout */
+.layout-split .text-content h2 {
+    margin-top: 0; /* Geen extra marge bovenaan */
+}
+.layout-split .text-content ul {
+   margin-left: 0; /* Reset marge als die er was */
+   max-width: none; /* Laat lijst volle breedte van kolom nemen */
+}
+.layout-split .text-content .large-paragraph {
+    margin-left: 0; /* Reset marge */
+    max-width: none; /* Laat paragraaf volle breedte nemen */
+}
+
+
+/* === Styling voor nieuwe CTA Sectie === */
+.cta-section {
+    padding: 60px 0;
+    border-top: 1px solid var(--border-color); /* Rand bovenaan indien nodig */
+    /* Gebruik een opvallende achtergrond of houd de alternate-bg */
+     background-color: var(--dark-grey); /* Donkere achtergrond voor contrast */
+     color: var(--white); /* Lichte tekst */
+}
+
+.cta-section h2 {
+    color: var(--white); /* Witte titel op donkere achtergrond */
+    font-size: 2.2em;
+    margin-bottom: 15px;
+}
+
+.cta-section p {
+    font-size: 1.15em;
+    margin-bottom: 30px;
+    opacity: 0.9;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Responsive aanpassingen voor de split layout */
+@media (max-width: 768px) {
+    .layout-split .split-container {
+        flex-direction: column; /* Kolommen onder elkaar */
+        gap: 30px;
+    }
+    /* Reset volgorde voor mobiel indien nodig (meestal niet nodig door column direction) */
+    .layout-split .text-content,
+    .layout-split .image-content {
+       order: initial; /* Reset volgorde */
+       max-width: 90%; /* Beperk breedte iets */
+       margin-left: auto;
+       margin-right: auto;
+    }
+    .layout-text-left .image-content,
+    .layout-image-left .image-content {
+       margin-bottom: 20px; /* Extra ruimte onder afbeelding op mobiel */
+    }
+
+    /* Zorg dat de tekst in de split layout weer gecentreerd is op mobiel indien gewenst */
+     .layout-split .text-content {
+         text-align: center;
+     }
+     .layout-split .text-content ul {
+         margin-left: auto;
+         margin-right: auto;
+         /* Evt. text-align: left; hier als je lijst links wilt houden */
+     }
+     .layout-split .text-content .btn {
+         /* Zorg dat knoppen goed staan */
+     }
+}
+
+
+/* ... (Rest van de CSS, inclusief eerdere @media queries) ... */
+/* === Styling voor Nieuwe Secties === */
+
+/* Algemene sectie styling */
+.info-section, .testimonials-section, .faq-section {
+    padding: 60px 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+/* Wisselende achtergrondkleur voor secties */
+.alternate-bg {
+    background-color: var(--white); /* Witte achtergrond voor afwisseling */
+}
+
+.info-section h2, .testimonials-section h2, .faq-section h2 {
+    color: var(--dark-grey);
+    margin-bottom: 30px;
+    font-size: 2em;
+    font-weight: 700;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.large-paragraph {
+    font-size: 1.1em;
+    line-height: 1.7;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 30px;
+    color: var(--dark-grey);
+    opacity: 0.9;
+}
+
+/* Styling voor 'Ons Lesmateriaal' lijst */
+.info-section ul {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 30px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto; /* Centreer de lijst */
+}
+
+.info-section ul li {
+    margin-bottom: 15px;
+    font-size: 1.1em;
+    display: flex;
+    align-items: center; /* Lijn icoon/tekst uit */
+    gap: 10px; /* Ruimte tussen icoon en tekst */
+}
+
+.info-section ul li strong {
+    color: var(--cyan-glow); /* Accentkleur */
+}
+
+/* Styling voor Testimonials */
+.testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive grid */
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.testimonial-card {
+    background-color: #f8f9fa; /* Lichte kaart achtergrond */
+    padding: 30px;
+    border-radius: 8px;
+    border-left: 5px solid var(--orange-accent); /* Oranje accentstreep */
+    box-shadow: 0 3px 10px rgba(0,0,0,0.07);
+    display: flex;
+    flex-direction: column;
+}
+
+.testimonial-card blockquote {
+    margin: 0 0 20px 0;
+    font-style: italic;
+    color: var(--dark-grey);
+    opacity: 0.9;
+    flex-grow: 1; /* Zorgt dat tekst ruimte vult */
+    position: relative;
+    padding-left: 20px;
+}
+
+.testimonial-card blockquote::before {
+    content: '“'; /* Openings aanhalingsteken */
+    font-size: 3em;
+    color: var(--orange-accent);
+    opacity: 0.5;
+    position: absolute;
+    left: -10px;
+    top: -10px;
+}
+
+
+.testimonial-card cite {
+    font-weight: 600;
+    color: var(--text-color);
+    font-style: normal;
+    margin-top: auto; /* Duwt de naam naar beneden */
+    font-size: 0.95em;
+    line-height: 1.4;
+}
+
+/* Styling voor FAQ */
+.faq-grid {
+    display: grid;
+    gap: 20px;
+    max-width: 800px; /* Beperk breedte voor leesbaarheid */
+    margin: 40px auto 0 auto;
+}
+
+.faq-item {
+    background-color: var(--white);
+    padding: 20px 25px;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.faq-item h3 {
+    margin: 0 0 10px 0;
+    font-size: 1.2em;
+    color: var(--cyan-glow); /* Cyaan voor vragen */
+    font-weight: 600;
+}
+
+.faq-item p {
+    margin: 0;
+    line-height: 1.6;
+    color: var(--dark-grey);
+    opacity: 0.9;
+}
+
+.faq-item p a {
+    color: var(--orange-accent); /* Oranje accent voor links */
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.faq-item p a:hover {
+    text-decoration: underline;
+}
+
+/* Extra aanpassing voor de laatste sectie geen border */
+.faq-section {
+    border-bottom: none;
+}
+/* --- NIEUWE STIJL: Geïnspireerd door Codeblocks Mascotte --- */
+
+/* --- Kleurenpalet van Mascotte --- */
+:root {
+    --dark-grey: #34495e; /* Lichaam robot */
+    --cyan-glow: #00d1d1; /* Scherm/ogen/gloed - iets aangepast voor leesbaarheid */
+    --orange-accent: #f39c12; /* Voeten */
+    --light-blue-block: #5dade2; /* Zwevend blokje blauw */
+    --lime-green-block: #a2e048; /* Zwevend blokje groen */
+    --light-background: #f7f4f0; /* Achtergrond mascotte afbeelding (benadering) */
+    --white: #ffffff;
+    --text-color: #2c3e50; /* Donkergrijs voor tekst */
+    --border-color: #dadedf;
+}
+
+/* Algemene Stijlen & Grid Achtergrond */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Moderner sans-serif */
+    margin: 0;
+    padding: 0;
+    background-color: var(--light-background); /* Nieuwe achtergrondkleur */
+    color: var(--text-color);
+    /* Grid achtergrond - aangepast aan nieuwe achtergrond */
+    background-image:
+        linear-gradient(rgba(52, 73, 94, 0.07) 1px, transparent 1px), /* Donkerder grid lijnen */
+        linear-gradient(90deg, rgba(52, 73, 94, 0.07) 1px, transparent 1px);
+    background-size: 25px 25px; /* Iets grotere grid */
+}
+
+.container {
+    max-width: 1140px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+/* Code-achtige elementen */
+code {
+    font-family: Consolas, 'Courier New', monospace;
+    background-color: rgba(52, 73, 94, 0.1);
+    padding: 2px 5px;
+    border-radius: 4px;
+    font-size: 0.9em;
+}
+
+/* Header */
+.site-header {
+    background-color: var(--white);
+    padding: 15px 0;
+    border-bottom: 1px solid var(--border-color);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.06);
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo img {
+    display: block;
+}
+
+.main-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 25px; /* Iets meer ruimte */
+}
+
+.main-nav a {
+    text-decoration: none;
+    color: var(--text-color);
+    font-weight: 600; /* Iets dikker */
+    transition: color 0.3s ease;
+}
+
+.main-nav a:hover {
+    color: var(--cyan-glow); /* Cyaan accent bij hover */
+}
+
+.header-actions {
+    display: flex;
+    gap: 10px;
+}
+
+/* Knoppen - Mascotte Stijl */
+.btn {
+    display: inline-block;
+    padding: 12px 25px; /* Iets grotere knoppen */
+    border-radius: 6px; /* Afgeronde hoeken zoals mascotte */
+    text-decoration: none;
+    font-weight: 700;
+    text-align: center;
+    transition: all 0.3s ease;
+    border: none; /* Geen standaard rand */
+    cursor: pointer;
+}
+
+.btn-primary {
+    background-color: var(--cyan-glow); /* Cyaan knop */
+    color: var(--dark-grey); /* Donkere tekst voor contrast */
+    box-shadow: 0 2px 5px rgba(0, 209, 209, 0.3); /* Subtiele cyaan gloed */
+}
+
+.btn-primary:hover {
+    background-color: #00b3b3; /* Iets donkerder cyaan bij hover */
+    box-shadow: 0 4px 8px rgba(0, 209, 209, 0.4);
+    transform: translateY(-2px); /* Kleine lift */
+}
+
+.btn-secondary {
+    background-color: var(--white);
+    color: var(--dark-grey);
+    border: 2px solid var(--border-color); /* Duidelijkere rand */
+}
+
+.btn-secondary:hover {
+    background-color: #f8f9fa;
+    border-color: #adb5bd;
+    color: var(--cyan-glow);
+}
+
+/* Oranje accent knop (optioneel) */
+.btn-accent {
+    background-color: var(--orange-accent);
+    color: var(--white);
+    box-shadow: 0 2px 5px rgba(243, 156, 18, 0.3);
+}
+.btn-accent:hover {
+    background-color: #e67e22; /* Donkerder oranje */
+    box-shadow: 0 4px 8px rgba(243, 156, 18, 0.4);
+    transform: translateY(-2px);
+}
+
+
+.btn-large {
+    padding: 18px 35px;
+    font-size: 1.15em;
+}
+
+/* Hero Sectie */
+.hero-section {
+    text-align: center;
+    padding: 90px 0;
+    /* Transparant wit over de grid achtergrond */
+    background-color: rgba(255, 255, 255, 0.85);
+    margin-bottom: 50px;
+    border-bottom: 1px solid var(--border-color); /* Subtiele lijn */
+}
+
+.hero-section h1 {
+    font-size: 3em; /* Grotere titel */
+    margin-bottom: 20px;
+    color: var(--dark-grey); /* Donkergrijs voor titel */
+    font-weight: 700;
+}
+
+/* Voeg hier eventueel een code-tag toe in de HTML voor 'Codeblocks' */
+.hero-section h1 code {
+   font-size: 1em; /* Zorgt dat code in titel niet kleiner wordt */
+   background-color: transparent;
+   padding: 0;
+   color: var(--cyan-glow); /* Cyaan accent in titel */
+}
+
+.hero-section p {
+    font-size: 1.25em;
+    color: var(--dark-grey); /* Iets donkerder voor betere leesbaarheid */
+    opacity: 0.9;
+    margin-bottom: 35px;
+    max-width: 650px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Content Blokken/Kaarten - Stijl van zwevende blokjes */
+.content-blocks {
+    padding: 40px 0;
+}
+
+.blocks-container {
+    display: flex;
+    justify-content: space-around;
+    gap: 35px; /* Iets meer ruimte */
+    flex-wrap: wrap;
+}
+
+.content-card {
+    background-color: var(--white);
+    border-radius: 10px; /* Meer afgerond */
+    box-shadow: 0 5px 15px rgba(52, 73, 94, 0.1); /* Iets meer schaduw */
+    overflow: hidden;
+    text-align: center;
+    flex: 1;
+    min-width: 300px; /* Iets breder */
+    max-width: 45%;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.content-card:hover {
+    transform: translateY(-5px); /* Lift effect bij hover */
+    box-shadow: 0 8px 20px rgba(52, 73, 94, 0.15);
+}
+
+/* Kleuren van de zwevende blokjes voor de randen */
+.card-basisschool {
+     border-top: 6px solid var(--light-blue-block); /* Lichtblauw blokje */
+}
+
+.card-middelbaar {
+    border-top: 6px solid var(--lime-green-block); /* Limoengroen blokje */
+}
+
+
+.card-image img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    /* Tijdelijke placeholder styling */
+    background-color: #e9ecef;
+    min-height: 180px; /* Iets meer ruimte voor afbeelding */
+}
+
+.card-content {
+    padding: 30px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+
+.content-card h2 {
+    margin-top: 0;
+    font-size: 1.6em;
+    color: var(--dark-grey);
+    font-weight: 600;
+}
+
+.content-card p {
+    color: var(--dark-grey);
+    opacity: 0.85;
+    line-height: 1.7; /* Iets meer regelafstand */
+    margin-bottom: 25px;
+    flex-grow: 1;
+}
+
+.content-card .btn {
+    margin-top: auto; /* Duwt de knop naar beneden */
+}
+
+/* Footer */
+.site-footer-bottom {
+    text-align: center;
+    padding: 25px 0;
+    margin-top: 50px;
+    background-color: var(--dark-grey); /* Donkere footer */
+    color: var(--light-background); /* Lichte tekst */
+    font-size: 0.95em;
+    border-top: 3px solid var(--cyan-glow); /* Cyaan accent lijn */
+}
+
+.site-footer-bottom p {
+    margin: 0;
+    opacity: 0.8;
+}
+
+/* Responsive aanpassingen (blijven grotendeels hetzelfde) */
+@media (max-width: 768px) {
+    .header-container {
+        flex-direction: column;
+        gap: 15px;
+    }
+    .main-nav ul {
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+    .header-actions {
+        justify-content: center;
+        width: 100%;
+    }
+    .blocks-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    .content-card {
+        max-width: 90%; /* Kaarten nog breder op mobiel */
+        width: 100%;
+    }
+    .hero-section h1 {
+        font-size: 2.5em;
+    }
+     .hero-section p {
+        font-size: 1.1em;
+    }
+}/* Zorg dat de pagina 100% hoogte heeft en de footer onderaan blijft */
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* De content vult de ruimte boven de footer */
+main {
+  flex: 1;
+}
+
+/* Footer zelf */
+footer {
+  text-align: center;
+  padding: 16px;
+  background-color: #1f2937; /* Donkergrijs, Codeblocks-stijl */
+  color: white;
+}
+
+footer a {
+  color: #4A90E2; /* Primaire blauwe kleur */
+  text-decoration: none;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}

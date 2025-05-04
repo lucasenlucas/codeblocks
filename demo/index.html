@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Python Quiz – Les 1</title>
+
+  <!-- Google Font voor een moderne look -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      /* Kleuren – donkere modus */
+      --bg-gradient-start: #4f46e5;
+      --bg-gradient-end:   #0ea5e9;
+      --card-bg:           rgba(255,255,255,0.12);
+      --border:            rgba(255,255,255,0.25);
+      --text:              #f8fafc;
+      --primary:           #38bdf8;
+      --primary-hover:     #0ea5e9;
+      --shadow:            0 8px 32px rgba(0,0,0,0.35);
+    }
+
+    /* Lichte modus (automatisch via OS‑instelling) */
+    @media (prefers-color-scheme: light) {
+      :root {
+        --bg-gradient-start: #38bdf8;
+        --bg-gradient-end:   #4f46e5;
+        --card-bg:           #ffffffee;
+        --border:            rgba(0,0,0,0.05);
+        --text:              #0f172a;
+        --primary:           #4f46e5;
+        --primary-hover:     #4338ca;
+      }
+    }
+
+    /* Reset */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: "Inter", sans-serif;
+      background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    .quiz-container {
+      width: 100%;
+      max-width: 520px;
+      background: var(--card-bg);
+      backdrop-filter: blur(18px);
+      border: 1px solid var(--border);
+      border-radius: 1.5rem;
+      padding: clamp(1.5rem, 4vw, 2.5rem);
+      box-shadow: var(--shadow);
+      animation: zoomIn 0.6s ease;
+    }
+
+    @keyframes zoomIn {
+      from { transform: scale(0.9); opacity: 0; }
+      to   { transform: scale(1);   opacity: 1; }
+    }
+
+    h1 {
+      font-size: clamp(1.6rem, 5vw, 2.2rem);
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+
+    .question {
+      font-size: clamp(1.1rem, 4vw, 1.3rem);
+      margin-bottom: 1.25rem;
+      line-height: 1.35;
+      min-height: 3.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .options button {
+      all: unset;
+      display: block;
+      width: 100%;
+      padding: 0.9rem 1rem;
+      margin-bottom: 0.75rem;
+      font-weight: 600;
+      text-align: center;
+      border-radius: 0.8rem;
+      background: var(--primary);
+      color: #ffffff;
+      cursor: pointer;
+      transition: transform 0.16s ease, background 0.16s ease;
+      user-select: none;
+    }
+
+    .options button:hover,
+    .options button:focus-visible {
+      background: var(--primary-hover);
+      transform: translateY(-2px);
+    }
+
+    .options button.correct   { background: #16a34a; }
+    .options button.incorrect { background: #dc2626; }
+
+    .feedback {
+      font-size: 1.05rem;
+      text-align: center;
+      min-height: 1.5rem;
+      margin-top: 1rem;
+    }
+
+    /* Zorg voor extra padding onderaan op kleine schermen, zodat de knoppen boven het iOS‑toetsenbord blijven */
+    @media (max-height: 650px) {
+      body { padding-bottom: 5rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="quiz-container">
+    <h1>Python Les 1 – Quiz</h1>
+    <div class="question" id="question">Laden …</div>
+    <div class="options" id="options"></div>
+    <div class="feedback" id="feedback"></div>
+  </div>
+
+  <script>
+    const quizData = [
+      {
+        question: "Wat doet de regel: print('Hallo, wereld!')?",
+        options: [
+          "Maakt een variabele aan",
+          "Laat de computer iets zeggen",
+          "Vraagt iets aan de gebruiker",
+          "Maakt een foutmelding"
+        ],
+        correct: 1
+      },
+      {
+        question: "Wat doet de functie input()?",
+        options: [
+          "Print iets op het scherm",
+          "Slaat een bestand op",
+          "Stelt een vraag aan de gebruiker",
+          "Maakt een keuze tussen twee opties"
+        ],
+        correct: 2
+      },
+      {
+        question: "Wat gebeurt er als iemand iets anders typt dan 'bos' of 'stad'?",
+        options: [
+          "Het programma crasht",
+          "De computer doet niets",
+          "De else‑code wordt uitgevoerd",
+          "Er wordt altijd naar het bos gegaan"
+        ],
+        correct: 2
+      },
+      {
+        question: "Wat is een variabele in Python?",
+        options: [
+          "Een printregel",
+          "Een doosje om informatie in op te slaan",
+          "Een knop",
+          "Een fout"
+        ],
+        correct: 1
+      }
+    ];
+
+    let currentQuestion = 0;
+
+    function loadQuestion() {
+      const q = quizData[currentQuestion];
+      document.getElementById("question").textContent = q.question;
+
+      const optionsEl   = document.getElementById("options");
+      const feedbackEl  = document.getElementById("feedback");
+      optionsEl.innerHTML = "";
+      feedbackEl.textContent = "";
+
+      q.options.forEach((option, index) => {
+        const btn = document.createElement("button");
+        btn.textContent = option;
+        btn.addEventListener("click", () => checkAnswer(index, btn));
+        optionsEl.appendChild(btn);
+      });
+    }
+
+    function checkAnswer(selectedIndex, btnEl) {
+      const correctIndex = quizData[currentQuestion].correct;
+      const feedbackEl   = document.getElementById("feedback");
+
+      // Geef kleur aan het aangeklikte antwoord
+      if (selectedIndex === correctIndex) {
+        btnEl.classList.add("correct");
+        feedbackEl.textContent = "✅ Goed gedaan!";
+        if ("vibrate" in navigator) navigator.vibrate(100);
+      } else {
+        btnEl.classList.add("incorrect");
+        feedbackEl.textContent = "❌ Oeps! Dat is niet juist.";
+        if ("vibrate" in navigator) navigator.vibrate([50, 50, 50]);
+      }
+
+      // Wacht even voordat we doorgaan naar de volgende vraag
+      setTimeout(() => {
+        currentQuestion++;
+        if (currentQuestion < quizData.length) {
+          loadQuestion();
+        } else {
+          document.getElementById("question").textContent = "Klaar!";
+          document.getElementById("options").innerHTML = "";
+          feedbackEl.textContent = "Je hebt de quiz voltooid 🎉";
+        }
+      }, 1200);
+    }
+
+    loadQuestion();
+  </script>
+</body>
+</html>

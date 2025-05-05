@@ -1,102 +1,139 @@
 <!DOCTYPE html>
 <html lang="nl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Codeblocks - Home</title> <link rel="stylesheet" href="style.css">
-    <link rel="icon" href="https://cdn.codeblocks.nl/general/files/images/favicon.jpg" type="image/x-icon">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Codeblocks – Home</title>
 
-</head>
-<body>
+    <!--  Fonts  -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet" />
+
+    <!--  Favicon  -->
+    <link rel="icon" href="https://cdn.codeblocks.nl/general/files/images/favicon.jpg" type="image/x-icon" />
+
+    <!--  External stylesheet  -->
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <script src="main.js" defer></script>
+  <body>
+    <!-- ===== HEADER ===== -->
     <header class="site-header">
-        <div class="container header-container">
-            <div class="logo">
-                <img src="https://github.com/Koen-HowtoHack/codeblocksportal/blob/main/cdn/cdn-bestanden/ChatGPT%20Image%2018%20apr%202025,%2011_02_55.png?raw=true" alt="Codeblocks Logo" width="150"> </div>
-            <nav class="main-nav">
-                <ul>
-                    <li><a href="#">Cursussen</a></li>
-                    <li><a href="#">Niveaus</a></li>
-                    <li><a href="#">Voor Docenten</a></li>
-                    <li><a href="#">Over Ons</a></li> </ul>
-            </nav>
-            <div class="header-actions">
-                <a href="https://login.codeblocks.nl/" class="btn btn-secondary">Login</a>
-                <a href="#" class="btn btn-primary">Vraag Demo Aan</a>
-            </div>
+      <div class="container header-container">
+        <div class="logo">
+          <img
+            src="https://codeblocks.nl/cdn-homepage/logo-wit.png"
+            alt="Codeblocks Logo-wit"
+            width="120"
+          />
         </div>
+
+        <nav class="main-nav" aria-label="Hoofdnavigatie">
+          <ul>
+            <li><a href="#cursussen">Cursussen</a></li>
+            <li><a href="#niveaus">Niveaus</a></li>
+            <li><a href="#docenten">Voor docenten</a></li>
+            <li><a href="#over">Over ons</a></li>
+          </ul>
+        </nav>
+
+        <div class="header-actions">
+          <a href="https://login.codeblocks.nl/" class="btn btn-secondary">Login</a>
+          <a href="#demo" class="btn btn-primary">Vraag demo aan</a>
+        </div>
+      </div>
     </header>
 
-    <main>
-        <section class="hero-section">
-            <div class="container">
-                <h1>Leer programmeren met <code>Codeblocks</code></h1>
-                <p>Ontdek de wereld van code op een leuke en interactieve manier. Voor scholen en thuis!</p>
-                 <a href="#" class="btn btn-primary btn-large">Vraag een Gratis Demo Aan</a>
-              
-              <p>🐙 Alles op deze site is met liefde gebouwd. En een beetje chaos. ❤️‍🔥
-              -- oja de site is nog in development,   groetjes van de DEV's die aan dit project werken xD
-              [later wel weg halen staat er tijdelijk op]</p>
-            </div>
-        </section>
+    <!-- ===== HERO ===== -->
+    <section class="hero-section" id="home">
+      <div class="container">
+        <h1>Leer programmeren met Codeblocks</h1>
+        <p>Ontdek de wereld van code op een leuke en interactieve manier – voor scholen én thuis!</p>
+        <a href="#demo" class="btn btn-primary btn-large">Vraag een gratis demo aan</a>
+      </div>
+    </section>
 
-        <section class="content-blocks">
-            <div class="container blocks-container">
-                 <div class="content-card card-basisschool">
-                    <div class="card-image">
-                        <img src="https://github.com/Koen-HowtoHack/codeblocksportal/blob/main/cdn/cdn-bestanden/ChatGPT%20Image%2018%20apr%202025,%2014_31_27.png?raw=true" alt="Codeblocks Basisschool"> </div>
-                    <div class="card-content">
-                        <h2>Groep 7 en 8 Basisschool</h2>
-                        <p>Maak kennis met de basis van programmeren via leuke projecten en visuele tools.</p>
-                        <a href="#" class="btn btn-secondary">Ontdek nu</a>
-                    </div>
-                </div>
-                <div class="content-card card-middelbaar">
-                    <div class="card-image">
-                         <img src="https://github.com/Koen-HowtoHack/codeblocksportal/blob/main/cdn/cdn-bestanden/ChatGPT%20Image%2018%20apr%202025,%2014_37_32.png?raw=true" alt="Codeblocks Middelbare School"> </div>
-                     <div class="card-content">
-                        <h2>Klas 1, 2, 3 Middelbare School</h2>
-                        <p>Verdiep je kennis met echte programmeertalen zoals Python, HTML/CSS en JavaScript.</p>
-                        <a href="#" class="btn btn-secondary">Bekijk aanbod</a>
-                    </div>
-                </div>
-            </div>
-        </section>
+    <!-- ===== CONTENT BLOCKS ===== -->
+    <section class="content-blocks" id="niveaus">
+      <div class="container blocks-container">
+        <!--  CARD 1  -->
+        <article class="content-card card-basisschool">
+          <div class="card-image">
+            <img
+              src="https://github.com/Koen-HowtoHack/codeblocksportal/blob/main/cdn/cdn-bestanden/ChatGPT%20Image%2018%20apr%202025,%2014_31_27.png?raw=true"
+              alt="Codeblocks Basisschool"
+            />
+          </div>
+          <div class="card-content">
+            <h2>Groep 7 &amp; 8 Basisschool</h2>
+            <p>Maak kennis met de basis van programmeren via leuke projecten en visuele tools.</p>
+            <a href="#" class="btn btn-secondary">Ontdek nu</a>
+          </div>
+        </article>
 
-        <section class="info-section alternate-bg layout-split layout-text-left">
-            <div class="container split-container">
-                <div class="text-content">
-                    <h2>Ons Cursusmateriaal</h2>
-                    <ul>
-                       
-                        <li>✓ Voorbeelden: Web Development, Python Basics, Game Design</li>
-                        <li>✓ Persoonlijke ondersteuning voor een succesvolle start</li>
-                    </ul>
-                     <a href="#" class="btn btn-secondary">Bekijk onze cursussen</a>
-                </div>
-                <div class="image-content">
-                    <img src="https://github.com/Koen-HowtoHack/codeblocksportal/blob/main/cdn/cdn-bestanden/ChatGPT%20Image%2018%20apr%202025,%2015_06_27.png?raw=true" alt="Illustratie van Codie bij een python teminal">
-                </div>
-            </div>
-        </section>
+        <!--  CARD 2  -->
+        <article class="content-card card-middelbaar">
+          <div class="card-image">
+            <img
+              src="https://github.com/Koen-HowtoHack/codeblocksportal/blob/main/cdn/cdn-bestanden/ChatGPT%20Image%2018%20apr%202025,%2014_37_32.png?raw=true"
+              alt="Codeblocks Middelbare School"
+            />
+          </div>
+          <div class="card-content">
+            <h2>Klas 1, 2 &amp; 3 Middelbare School</h2>
+            <p>Verdiep je kennis met programmeertalen zoals Python, HTML/CSS en JavaScript.</p>
+            <a href="#" class="btn btn-secondary">Bekijk aanbod</a>
+          </div>
+        </article>
+      </div>
+    </section>
 
-        <section class="info-section layout-split layout-image-left">
-            <div class="container split-container">
-                 <div class="image-content">
-                     <img src="https://github.com/Koen-HowtoHack/codeblocksportal/blob/main/cdn/cdn-bestanden/ChatGPT%20Image%2018%20apr%202025,%2017_55_11.png?raw=true" alt="Illustratie van technologie in het klaslokaal">
-                </div>
-                <div class="text-content">
-                    <h2>Zo verbind jij technologie aan het klaslokaal</h2>
-                    <p class="large-paragraph">De technologische ontwikkelingen gaan razendsnel... Bij Codeblocks zorgen we ervoor dat ons lesmateriaal actueel is... Zo verbind jij als docent (of leer je zelf) relevante tech skills! Daarnaast bieden wij verschillende projecten en workshops aan, zoals <code>Web Development</code> en <code>Programmeren</code>.</p>
-                    <a href="#" class="btn btn-secondary">Ontdek de mogelijkheden</a>
-                </div>
-            </div>
-        </section> 
-  </main>
+    <!-- ===== SPLIT SECTION 1 ===== -->
+    <section class="info-section alternate-bg layout-split layout-text-left" id="cursussen">
+      <div class="container split-container">
+        <div class="text-content">
+          <h2>Ons cursus­materiaal</h2>
+          </ul>
+        <li> 
+          <a href="#" class="btn btn-secondary">Bekijk onze cursussen</a>
+        </div>
+        <div class="image-content">
+          <img
+            src="https://github.com/Koen-HowtoHack/codeblocksportal/blob/main/cdn/cdn-bestanden/ChatGPT%20Image%2018%20apr%202025,%2015_06_27.png?raw=true"
+            alt="Illustratie van Codie bij een python terminal"
+          />
+        </div>
+      </div>
+    </section>
 
-    <footer>
-  <p>© 2025 Codeblocks • Een initiatief van <a href="https://howtohack.nl">How to Hack</a></p>
-        <elevenlabs-convai agent-id="u07eyol7vLoIyzSTqdp8"></elevenlabs-convai><script src="https://elevenlabs.io/convai-widget/index.js" async type="text/javascript"></script>
-</footer>
+    <!-- ===== SPLIT SECTION 2 ===== -->
+    <section class="info-section layout-split layout-image-left" id="docenten">
+      <div class="container split-container">
+        <div class="image-content">
+          <img
+            src="https://github.com/Koen-HowtoHack/codeblocksportal/blob/main/cdn/cdn-bestanden/ChatGPT%20Image%2018%20apr%202025,%2017_55_11.png?raw=true"
+            alt="Illustratie van technologie in het klaslokaal"
+          />
+        </div>
+        <div class="text-content">
+          <h2>Zo verbind jij technologie met je klaslokaal</h2>
+          <p class="large-paragraph">
+            De technologische ontwikkelingen gaan razendsnel. Bij Codeblocks zorgen we ervoor dat ons lesmateriaal up‑to‑date blijft zodat jij als docent én je leerlingen altijd de nieuwste tech‑skills leren. Daarnaast bieden we hands‑on projecten en workshops aan, zoals <code>Web&nbsp;Development</code> en <code>Programmeren</code>.
+          </p>
+          <a href="#" class="btn btn-secondary">Ontdek de mogelijkheden</a>
+        </div>
+      </div>
+    </section>
 
-</body>
+    <!-- ===== FOOTER ===== -->
+    <footer id="over">
+      <p>
+        © 2025 Codeblocks • Een initiatief van
+        <a href="https://howtohack.nl" target="_blank" rel="noopener">How to Hack</a>
+      </p>
+      <!-- Conversational widget -->
+      <elevenlabs-convai agent-id="u07eyol7vLoIyzSTqdp8"></elevenlabs-convai>
+      <script src="https://elevenlabs.io/convai-widget/index.js" async type="text/javascript"></script>
+    </footer>
+  </body>
 </html>

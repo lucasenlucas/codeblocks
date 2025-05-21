@@ -7,10 +7,14 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --clr-bg: #070a19;
+      --clr-middle: #1D005B;
+      --clr-outer: #0a001f;
       --clr-accent: #7355ff;
+      --clr-accent-hover: #5a3ae5;
       --clr-text: #e7e9f7;
-      --clr-muted: #8a8fae;
+      --clr-muted: #b3b6d4;
+      --radius: 1rem;
+      --transition: 0.3s ease;
     }
 
     * {
@@ -20,62 +24,71 @@
     }
 
     body {
-      background-color: var(--clr-bg);
+      height: 100vh;
       font-family: 'Inter', sans-serif;
       color: var(--clr-text);
       display: flex;
-      align-items: center;
-      justify-content: center;
       flex-direction: column;
-      height: 100vh;
+      justify-content: center;
+      align-items: center;
       text-align: center;
       padding: 2rem;
+      background:
+        radial-gradient(circle at center, var(--clr-middle) 0%, var(--clr-outer) 70%),
+        linear-gradient(to top, var(--clr-outer) 0%, var(--clr-middle) 40%),
+        linear-gradient(to bottom, var(--clr-outer) 0%, var(--clr-middle) 40%);
+      background-blend-mode: lighten;
     }
 
     img {
-      width: 160px;
-      max-width: 80%;
-      animation: float 3s ease-in-out infinite;
+      width: 300px;
+      max-width: 90%;
+      margin-bottom: 1rem;
     }
 
     h1 {
-      font-size: 3rem;
-      margin-top: 1.5rem;
+      font-size: 3.5rem;
       color: var(--clr-accent);
     }
 
     p {
       font-size: 1.2rem;
       color: var(--clr-muted);
-      margin-top: 0.5rem;
+      max-width: 500px;
     }
 
     a {
-      display: inline-block;
       margin-top: 2rem;
       background-color: var(--clr-accent);
       color: #fff;
-      padding: 0.75rem 1.5rem;
-      border-radius: 0.5rem;
+      padding: 0.85rem 1.75rem;
+      border-radius: var(--radius);
       text-decoration: none;
       font-weight: 600;
-      transition: 0.3s ease;
+      font-size: 1rem;
+      transition: var(--transition);
     }
 
     a:hover {
-      background-color: #5a3ae5;
+      background-color: var(--clr-accent-hover);
+      transform: scale(1.03);
     }
 
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 2.5rem;
+      }
+
+      p {
+        font-size: 1rem;
+      }
     }
   </style>
 </head>
 <body>
-  <img src="https://codeblocks.nl/cdn-homepage/404erroriconcodeblocks.png" alt="Mascotte verdrietig" />
+  <img src="https://codeblocks.nl/cdn-homepage/Ontwerp%20zonder%20titel.gif" alt="404 Mascotte" />
   <h1>Oeps... 404!</h1>
-  <p>Deze pagina bestaat niet (meer). Misschien zit 'ie ergens anders verstopt 🕵️</p>
-  <a href="https://codeblocks.nl">Terug naar de homepage</a>
+  <p>Deze pagina bestaat niet (meer).💀</p>
+  <a href="https://codeblocks.nl">🔙 Terug naar de homepage</a>
 </body>
 </html>

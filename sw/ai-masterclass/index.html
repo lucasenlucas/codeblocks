@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CodeBlocks AI Studio</title>
+  <!-- Google Gemini & html2canvas -->
+  <script type="module" src="https://esm.run/@google/generative-ai"></script>
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
+  <style>
+    :root{
+      --brand:#38bdf8;--bg-1:#ffffff;--bg-2:#f1f5f9;--bg-card:#f9fafb;--txt:#0f172a;
+      --radius-xl:24px;--radius-lg:18px;--radius-md:14px;--user-color:#4a90e2;--ai-color:#e6f0ff;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Inter',sans-serif;background:var(--bg-1);color:var(--txt);min-height:100vh;padding:2rem;display:flex;flex-direction:column;align-items:center;gap:1.5rem}
+    h1{font-size:2.2rem;font-weight:800;color:var(--brand);text-align:center}
+    .tabs{display:flex;gap:1rem}
+    .tab{background:var(--bg-2);border:2px solid transparent;padding:.7rem 1.4rem;border-radius:var(--radius-lg);font-weight:600;cursor:pointer;transition:.2s}
+    .tab.active,.tab:hover{border-color:var(--brand);background:color-mix(in srgb,var(--brand) 15%,var(--bg-2))}
+    .panel{display:none;width:min(100%,900px);background:var(--bg-card);padding:2rem 1.5rem;border-radius:var(--radius-xl);box-shadow:0 8px 24px rgba(0,0,0,.08);flex-direction:column;gap:1.5rem}
+    .panel.active{display:flex}
+    label{font-weight:600;margin-top:1.3rem;display:block}
+    input,textarea,input[type="color"],input[type="file"]{width:100%;padding:.9rem 1rem;border-radius:var(--radius-md);border:1px solid #d1d5db;font-size:1rem;background:var(--bg-2);margin-top:.4rem}
+    textarea{resize:vertical;min-height:90px}
+    input[type="color"]{height:50px;padding:0}
+    button{background:var(--brand);border:none;padding:.9rem 1.7rem;border-radius:var(--radius-lg);font-weight:700;color:#00111d;cursor:pointer;transition:.2s}
+    button:hover{background:#0ea5e9}
+    button.secondary{background:var(--bg-2);color:var(--txt);border:1px solid var(--brand)}
+    .preview-wrap{display:flex;justify-content:center}
+    .poster{width:360px;background:#02012F;border-radius:24px;padding:24px;display:flex;flex-direction:column;color:#fff}
+    .poster-header{display:flex;justify-content:space-between;align-items:flex-start}
+    .poster-title{font-size:1.35rem;font-weight:800;color:#FFDE59;max-width:60%}
+    .poster-codeblocks{height:60px}
+    .poster-userlogo{height:60px;border-radius:14px;margin:0 auto 12px auto;display:none}
+    .poster-content{background:#fff;color:#000;border-radius:18px;padding:20px;font-size:.85rem;line-height:1.6;display:flex;flex-direction:column;gap:1rem;flex-grow:1}
+    .swatch-wrap{display:flex;gap:1rem;justify-content:center}
+    .swatch{width:60px;height:60px;border:1px solid #ccc;border-radius:12px}
+    .swatch-label{font-size:.65rem;text-align:center;margin-top:.25rem}
+    .poster-footer{font-size:.7rem;text-align:center;opacity:.8;margin-top:12px}
+
+    /* Chat overlay */
+    #chatOverlay{display:none;position:fixed;inset:0;background:#ffffff;z-index:1000;flex-direction:column}
+    .chat-header{display:flex;align-items:center;padding:1rem 1.5rem;border-bottom:1px solid #e2e8f0;font-weight:700}
+    .chat-body{flex:1;padding:1rem 1.5rem;overflow-y:auto;display:flex;flex-direction:column;gap:1rem}
+    .bubble{max-width:70%;padding:.8rem 1rem;border-radius:12px;line-height:1.45;font-size:0.95rem}
+    .user{align-self:flex-end;background:var(--user-color);color:#fff}
+    .ai{align-self:flex-start;background:var(--ai-color);color:#111}
+    .chat-input{display:flex;gap:1rem;padding:1rem 1.5rem;border-top:1px solid #e2e8f0}
+    .chat-input input{flex:1;border:1px solid #d1d5db;border-radius:12px;padding:.75rem;font-size:1rem}
+  </style>
+</head>
+<body>
+  <h1>CodeBlocks AI Studio</h1>
+  <div class="tabs"><button id="tabIdeas" class="tab active">📓 Ideeën</button><button id="tabBuild" class="tab">🛠️ Builder & Tester</button></div>
+
+  <!-- Idea Panel -->
+  <section id="panelIdeas" class="panel active">
+    <h2>Stap 1 – Antwoord op de vragen</h2>
+    <label>Je eigen naam</label><input id="uName" type="text" placeholder="Bijv. Lucas" />
+    <label>AI‑naam</label><input id="aiName" type="text" placeholder="Bijv. SlimmieBot" />
+    <label>Doel van je AI</label><textarea id="aiGoal" placeholder="Bijv. Huiswerk uitleggen"></textarea>
+    <label>Toon van je AI</label><input id="aiTone" type="text" placeholder="Bijv. Vrolijk met emoji’s" />
+    <label>Kleur gebruiker</label><input id="userCol" type="color" value="#4a90e2" />
+    <label>Kleur AI</label><input id="aiCol" type="color" value="#e6f0ff" />
+    <label>Upload je AI‑logo (PNG/JPG)</label><input id="aiLogo" type="file" accept="image/*" />
+    <div style="display:flex;gap:1rem;flex-wrap:wrap"><button id="btnPoster" class="secondary">⬇️ Poster downloaden</button><button id="btnToBuild">➡️ Naar Builder</button></div>
+    <h3>Live poster‑preview</h3>
+    <div class="preview-wrap">
+      <div class="poster" id="posterPrev">
+        <div class="poster-header"><span class="poster-title" id="prevTitle">BOTNAAM</span><img class="poster-codeblocks" src="https://codeblocks.nl/cdn-homepage/codeblocks_logo_tekst_wit_achtergrond_transparant.png"></div>
+        <div class="poster-footer" id="prevFooter"></div>
+        <div class="poster-content" id="prevContent">
+          <img id="prevUserLogo" class="poster-userlogo" />
+          <p><strong>Naam leerling:</strong> <span id="prevUser">–</span></p>
+          <p><strong>Doel:</strong> <span id="prevGoal">–</span></p>
+          <p><strong>Toon:</strong> <span id="prevTone">–</span></p>
+          <div class='swatch-wrap'><div><div class='swatch' id="swatchUser"></div><div class='swatch-label'>Gebr.<br><span id="swatchUserVal"></span></div></div><div><div class='swatch' id="swatchAi"></div><div class='swatch-label'>AI<br><span id="swatchAiVal"></span></div></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Builder Panel -->
+  <section id="panelBuild" class="panel">
+    <h2>Stap 2 – Bouw & Test je AI</h2>
+    <label>Naam AI</label><input id="bName" type="text" />
+    <label>Prompt / instructies</label><textarea id="bPrompt"></textarea>
+    <label>Gemini API‑key</label><input id="bKey" type="text" placeholder="Plak je key" />
+    <label>Kleur gebruiker</label><input id="bUserCol" type="color" value="#4a90e2" />
+    <label>Kleur AI</label><input id="bAiCol" type="color" value="#e6f0ff" />
+    <div style="display:flex;gap:1rem;flex-wrap:wrap"><button id="btnSave" class="secondary">💾 Opslaan</button><button id="btnTest">💬 Test AI</button></div>
+  </section>
+
+  <!-- Chat Overlay -->
+  <div id="chatOverlay" style="display:none">
+    <div class="chat-header">🤖 <span id="chatName" style="margin-left:.5rem">AI Chat</span><button id="chatClose" style="margin-left:auto;background:none;border:none;font-size:1.4rem">✖</button></div>
+    <div class="chat-body" id="chatBody"></div>
+    <div class="chat-input"><input id="chatInput" type="text" placeholder="Typ hier…"><button id="chatSend">Stuur</button></div>
+  </div>
+
+  <script type="module">
+    import { GoogleGenerativeAI } from "https://esm.run/@google/generative-ai";
+
+    const $=id=>document.getElementById(id);
+
+    // Tabs
+    $('tabIdeas').onclick=()=>switchTab('ideas');
+    $('tabBuild').onclick=()=>switchTab('build');
+    function switchTab(t){$('panelIdeas').classList.toggle('active',t==='ideas');$('panelBuild').classList.toggle('active',t==='build');$('tabIdeas').classList.toggle('active',t==='ideas');$('tabBuild').classList.toggle('active',t==='build');}
+
+    // Preview updates
+    ['uName','aiName','aiGoal','aiTone','userCol','aiCol'].forEach(id=>$(id).addEventListener('input',renderPreview));
+    $('aiLogo').addEventListener('change',e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{$('prevUserLogo').src=r.result;$('prevUserLogo').style.display='block';};r.readAsDataURL(f);});
+    function renderPreview(){const u=$('uName').value||'–';$('prevUser').textContent=u;$('prevTitle').textContent=$('aiName').value||'BOTNAAM';$('prevGoal').textContent=$('aiGoal').value||'–';$('prevTone').textContent=$('aiTone').value||'–';const uc=$('userCol').value;const ac=$('aiCol').value;$('swatchUser').style.background=uc;$('swatchUserVal').textContent=uc;$('swatchAi').style.background=ac;$('swatchAiVal').textContent=ac;document.documentElement.style.setProperty('--user-color',uc);document.documentElement.style.setProperty('--ai-color',ac);$('prevFooter').textContent=new Date().toLocaleString('nl-NL',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});}
+    renderPreview();
+
+    // Download poster
+    $('btnPoster').onclick=()=>html2canvas($('posterPrev')).then(c=>{const a=document.createElement('a');a.href=c.toDataURL('image/png');a.download=`${$('aiName').value||'Poster'}.png`;a.click();});
+
+    // Save config
+    let cfg={};
+    $('btnSave').onclick=()=>{cfg={name:$('bName').value||'AI',prompt:$('bPrompt').value||'',key:$('bKey').value,userCol:$('bUserCol').value,aiCol:$('bAiCol').value};alert('Opgeslagen!');};
+
+    // Chat overlay
+    $('btnTest').onclick=()=>{
+      if(!cfg.key){alert('Sla eerst je config op met geldige API‑key');return;}
+      $('chatName').textContent=cfg.name;
+      $('chatBody').innerHTML='';
+      document.documentElement.style.setProperty('--user-color',cfg.userCol);document.documentElement.style.setProperty('--ai-color',cfg.aiCol);
+      $('chatOverlay').style.display='flex';
+    };
+    $('chatClose').onclick=()=>{$('chatOverlay').style.display='none';};
+
+    async function sendMsg(){const text=$('chatInput').value.trim();if(!text)return;$('chatInput').value='';addBubble(text,'user');addBubble('…','ai');try{const gen=new GoogleGenerativeAI(cfg.key);const model=gen.getGenerativeModel({model:'models/gemini-1.5-flash'});const res=await model.generateContent(cfg.prompt+"\nGebruiker: "+text);replaceLast(res.response.text());}catch(e){replaceLast('⚠️ '+e.message);} }
+    $('chatSend').onclick=sendMsg;$('chatInput').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMsg();}});
+    function addBubble(t,cls){const div=document.createElement('div');div.className='bubble '+cls;div.textContent=t;$('chatBody').appendChild(div);$('chatBody').scrollTop=$('chatBody').scrollHeight;}
+    function replaceLast(t){const b=[...$('chatBody').querySelectorAll('.bubble.ai')].pop();if(b)b.textContent=t;$('chatBody').scrollTop=$('chatBody').scrollHeight;}
+
+    // Move idea values to builder
+    $('btnToBuild').onclick=()=>{$('bName').value=$('aiName').value;$('bPrompt').value=`Je bent ${$('aiName').value}. Doel: ${$('aiGoal').value}. Toon: ${$('aiTone').value}.`;$('bUserCol').value=$('userCol').value;$('bAiCol').value=$('aiCol').value;switchTab('build');};
+  </script>
+</body>
+</html>

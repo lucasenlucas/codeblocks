@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Codeblocks – Groep 7 & 8</title>
+
+  <!-- Plausible (zelfde als main) -->
+  <script defer data-domain="codeblocks.nl" src="https://plausible.io/js/script.outbound-links.tagged-events.js"></script>
+  <script>window.plausible=window.plausible||function(){(window.plausible.q=window.plausible.q||[]).push(arguments)}</script>
+
+  <link rel="preconnect" href="https://fonts.gstatic.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet" />
+  <link rel="icon" href="https://cdn.codeblocks.nl/general/files/images/favicon.jpg" type="image/x-icon" />
+  <link rel="stylesheet" href="style.css" />
+  <script src="main.js" defer></script>
+
+  <!-- Mini component-styles (sluiten aan op je tokens) -->
+  <style>
+    .sub-breadcrumb{font-size:.9rem;color:var(--clr-text-muted);margin-top:.5rem}
+    .badge{display:inline-block;padding:.25rem .6rem;border-radius:.75rem;background:rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.08);font-size:.8rem;color:var(--clr-primary-light)}
+    .pill{display:inline-flex;gap:.4rem;align-items:center}
+    /* Modal */
+    .modal{position:fixed;inset:0;display:none;place-items:center;background:rgba(0,0,0,.55);z-index:999}
+    .modal.open{display:grid}
+    .modal-card{width:min(92%,900px);background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);
+      border-radius:var(--radius);backdrop-filter:blur(6px);padding:1rem}
+    .modal-head{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:.75rem}
+    .modal-body{background:var(--clr-bg-accent);border-radius:calc(var(--radius) - .25rem);padding:1rem;min-height:360px}
+    .close-x{background:none;border:0;color:var(--clr-text);font-size:1.4rem;cursor:pointer}
+    .meta{display:flex;gap:.5rem;flex-wrap:wrap}
+    /* Quiz */
+    .quiz{display:grid;gap:1rem}
+    .quiz .q{padding:1rem;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:var(--radius)}
+    .choices{display:grid;gap:.5rem;margin-top:.5rem}
+    .choices button{all:unset;cursor:pointer;padding:.6rem .8rem;border-radius:.7rem;border:1px solid rgba(255,255,255,.12)}
+    .choices button:hover{background:rgba(255,255,255,.06)}
+    .quiz-result{padding:.8rem;border-radius:.7rem;background:rgba(115,85,255,.12);border:1px solid rgba(115,85,255,.35);display:none}
+  </style>
+</head>
+
+<body>
+  <!-- ===== HEADER (zelfde) ===== -->
+  <header class="site-header">
+    <div class="container header-container">
+      <div class="logo">
+        <a href="/"><img src="https://codeblocks.nl/cdn-homepage/logo-wit.png" alt="Codeblocks" width="120"/></a>
+      </div>
+      <nav class="main-nav" aria-label="Hoofdnavigatie">
+        <ul>
+          <li><a href="/#cursussen">Cursussen</a></li>
+          <li><a href="/#niveaus">Niveaus</a></li>
+          <li><a href="/#docenten">Voor docenten</a></li>
+          <li><a href="/#over">Over ons</a></li>
+        </ul>
+      </nav>
+      <div class="header-actions">
+        <a href="https://login.codeblocks.nl/" class="btn btn-secondary">Login</a>
+        <a href="#teachers" class="btn btn-primary">Vraag demo aan</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero-section" id="hero">
+    <div class="container">
+      <h1>Groep 7 &amp; 8 Basisschool</h1>
+      <p>Maak kennis met programmeren en <code>mediawijsheid</code> via korte, leuke activiteiten. Start in 2–5 minuten — geen account nodig.</p>
+      <div class="sub-breadcrumb">Home / Niveaus / <strong>Groep 7 &amp; 8</strong></div>
+    </div>
+  </section>
+
+  <!-- ===== PRODUCTKAARTEN ===== -->
+  <section class="content-blocks" id="tools">
+    <div class="container">
+      <div class="blocks-container">
+        <!-- Mediawijsheid -->
+        <article class="content-card">
+          <div class="card-image">
+            <img src="https://images.unsplash.com/photo-1526378722484-bd91ca387e72?q=80&w=1440&auto=format&fit=crop" alt="Mediawijsheid" />
+          </div>
+          <div class="card-content">
+            <h2>Mediawijsheid</h2>
+            <p>Herken phishing, check bronnen en deel veilig. Met 3 snelle cases en directe feedback.</p>
+            <div class="meta">
+              <span class="badge pill">⚡ 2 min</span>
+              <span class="badge">Chromebook-proof</span>
+            </div>
+            <a href="#media-quiz" class="btn btn-secondary">Start mini-quiz</a>
+          </div>
+        </article>
+
+        <!-- Blockly -->
+        <article class="content-card">
+          <div class="card-image">
+            <img src="https://images.unsplash.com/photo-1587620962725-abab7fe55159?q=80&w=1440&auto=format&fit=crop" alt="Blockly demoles" />
+          </div>
+          <div class="card-content">
+            <h2>Blockly Programmeren</h2>
+            <p>Leer <strong>herhalen</strong> en <strong>als/dan</strong> met een micro-puzzel. Doel: pak de munt met max. 6 blokken.</p>
+            <div class="meta">
+              <span class="badge pill">🕒 2–5 min</span>
+              <span class="badge">Geen account nodig</span>
+            </div>
+            <button class="btn btn-primary" data-open="blocklyModal">Start demo</button>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== MEDIAWIJSHEID MINI-QUIZ ===== -->
+  <section class="info-section alternate-bg" id="media-quiz">
+    <div class="container split-container">
+      <div class="text-content">
+        <h2>Mini-quiz Mediawijsheid</h2>
+        <p class="large-paragraph">3 snelle situaties. Kies wat jij zou doen—je krijgt meteen uitleg. Perfect als instap.</p>
+
+        <div class="quiz" id="quiz">
+          <!-- Q1 -->
+          <div class="q">
+            <strong>1. Je krijgt een DM: “Je account wordt gesloten, klik nu op deze link.”</strong>
+            <div class="choices">
+              <button data-q="1" data-a="wrong">Klikken, dan ben ik snel.</button>
+              <button data-q="1" data-a="right">Niet klikken; afzender checken en melden.</button>
+              <button data-q="1" data-a="wrong">Doen als de profielfoto echt lijkt.</button>
+            </div>
+          </div>
+          <!-- Q2 -->
+          <div class="q">
+            <strong>2. Je wilt een foto posten. Wat check je eerst?</strong>
+            <div class="choices">
+              <button data-q="2" data-a="right">Locatie/EXIF en wie er herkenbaar op staat.</button>
+              <button data-q="2" data-a="wrong">Alleen of de filter mooi is.</button>
+            </div>
+          </div>
+          <!-- Q3 -->
+          <div class="q">
+            <strong>3. Je leest nieuws dat te mooi is om waar te zijn. Wat nu?</strong>
+            <div class="choices">
+              <button data-q="3" data-a="right">Bron, datum en auteur checken.</button>
+              <button data-q="3" data-a="wrong">Doorsturen: “kijk snel!”</button>
+            </div>
+          </div>
+
+          <div class="quiz-result" id="quizResult" aria-live="polite"></div>
+          <button class="btn btn-secondary" id="quizFinish">Afronden</button>
+        </div>
+      </div>
+
+      <div class="image-content">
+        <img src="https://images.unsplash.com/photo-1526378722484-bd91ca387e72?q=80&w=1440&auto=format&fit=crop" alt="Mediawijs online" />
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== VOOR DOCENTEN ===== -->
+  <section class="info-section layout-split" id="teachers">
+    <div class="container split-container">
+      <div class="text-content">
+        <h2>Voor docenten</h2>
+        <ul>
+          <li>Doelen: probleemoplossend denken, basis programmeren, online weerbaarheid.</li>
+          <li>Middelen: docentengids (PDF), differentiatie-tips, klassikale demo.</li>
+          <li>Werkt op: Chromebooks, Windows, macOS (browser).</li>
+        </ul>
+        <a href="#" class="btn btn-primary" onclick="plausible('demo-aanvraag-groep78')">Vraag een demo aan</a>
+        <a href="#" class="btn btn-secondary">Download voorbeeldles (PDF)</a>
+      </div>
+      <div class="image-content">
+        <img src="https://images.unsplash.com/photo-1516387938699-a93567ec168e?q=80&w=1440&auto=format&fit=crop" alt="Les in de klas" />
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FAQ (kort) ===== -->
+  <section class="info-section">
+    <div class="container split-container">
+      <div class="text-content">
+        <h2>FAQ</h2>
+        <ul>
+          <li>Werkt dit op Chromebooks? — Ja, alles draait in de browser.</li>
+          <li>Heb je een account nodig? — Niet voor de demo’s.</li>
+          <li>Bewaren jullie gegevens? — Nee, demo-voortgang staat alleen lokaal.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <p>© 2025 Codeblocks • Een initiatief van <a href="https://howtohack.nl" target="_blank" rel="noopener">How to Hack</a></p>
+  </footer>
+
+  <!-- ===== BLOCKLY DEMO MODAL (placeholder) ===== -->
+  <div class="modal" id="blocklyModal" role="dialog" aria-modal="true" aria-labelledby="blocklyTitle">
+    <div class="modal-card">
+      <div class="modal-head">
+        <div>
+          <h3 id="blocklyTitle">Demo-les: Loops & If</h3>
+          <div class="meta"><span class="badge pill">🕒 2–5 min</span><span class="badge">Max 6 blokken</span></div>
+        </div>
+        <button class="close-x" data-close>&times;</button>
+      </div>
+      <div class="modal-body" id="blocklyContainer">
+        <!-- Hook: hier komt de echte Blockly canvas / iframe -->
+        <p>Hier komt de interactieve puzzel (grid + blokken). We tonen straks timer, hints en confetti.</p>
+        <button class="btn btn-secondary" id="mockComplete">Markeer als voltooid</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Subpage JS (lichtgewicht) -->
+  <script>
+    // Modal open/close
+    document.querySelectorAll('[data-open]').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        const id = btn.getAttribute('data-open');
+        document.getElementById(id)?.classList.add('open');
+      });
+    });
+    document.querySelectorAll('[data-close]').forEach(btn=>{
+      btn.addEventListener('click', ()=> btn.closest('.modal')?.classList.remove('open'));
+    });
+    document.getElementById('blocklyModal')?.addEventListener('click', (e)=>{
+      if(e.target.id==='blocklyModal') e.currentTarget.classList.remove('open');
+    });
+
+    // Mock “voltooid” tot de echte demo staat
+    const mockBtn = document.getElementById('mockComplete');
+    if (mockBtn){
+      mockBtn.addEventListener('click', ()=>{
+        localStorage.setItem('demoBlocklyDone','true');
+        plausible('blockly-demo-voltooid');
+        alert('Nice! (Demo gemarkeerd als voltooid — vervangen we straks door echte finish-event)');
+      });
+    }
+
+    // Mini-quiz logica (3 vragen)
+    const quizEl = document.getElementById('quiz');
+    const resultEl = document.getElementById('quizResult');
+    const answers = {};
+    quizEl?.addEventListener('click', e=>{
+      const btn = e.target.closest('button[data-q]');
+      if(!btn) return;
+      const q = btn.dataset.q;
+      const a = btn.dataset.a;
+      answers[q] = a === 'right';
+      [...btn.parentElement.children].forEach(b=>b.style.background='');
+      btn.style.background='rgba(115,85,255,.18)';
+    });
+    document.getElementById('quizFinish')?.addEventListener('click', ()=>{
+      const total = [1,2,3].filter(i=>answers[i]).length;
+      resultEl.style.display='block';
+      resultEl.textContent = `Score: ${total}/3 — ${total===3?'Top!':'Kijk nog even naar de feedback in de keuzes.'}`;
+      localStorage.setItem('demoMediaDone', String(total));
+      plausible('mediawijsheid-quiz-afgerond', {props:{score: total}});
+    });
+  </script>
+</body>
+</html>

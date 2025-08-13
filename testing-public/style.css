@@ -1,0 +1,305 @@
+/* =========================
+   CSS-variabelen (design-tokens)
+========================== */
+:root {
+  --clr-bg: #070a19;
+  --clr-bg-accent: #10152f;
+  --clr-primary: #7355ff;
+  --clr-primary-light: #a18bff;
+  --clr-text: #e7e9f7;
+  --clr-text-muted: #8a8fae;
+  --radius: 1rem;
+  --transition: 220ms ease;
+}
+
+/* =========  RESET  ========= */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Inter", sans-serif;
+  background: var(--clr-bg);
+  color: var(--clr-text);
+  line-height: 1.6;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+.container {
+  width: min(92%, 1200px);
+  margin-inline: auto;
+}
+
+/* =========  HEADER  ========= */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  backdrop-filter: blur(6px);
+  background: rgba(7, 10, 25, 0.6);
+}
+
+.header-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-block: 0.5rem; /* compacter */
+}
+
+.logo img {
+  width: 120px; /* kleiner logo */
+}
+
+.main-nav ul {
+  list-style: none;
+  display: flex;
+  gap: 1.5rem;
+  font-weight: 500;
+}
+
+.main-nav a {
+  transition: var(--transition);
+}
+
+.main-nav a:hover {
+  color: var(--clr-primary-light);
+}
+
+.header-actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+/* =========  Buttons  ========= */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  border-radius: var(--radius);
+  padding: 0.55rem 1rem; /* compacter */
+  font-size: 0.95rem;
+  white-space: nowrap;
+  transition: var(--transition);
+}
+
+.btn-primary {
+  background: var(--clr-primary);
+  color: #fff;
+}
+.btn-primary:hover {
+  background: var(--clr-primary-light);
+}
+
+.btn-secondary {
+  background: transparent;
+  border: 2px solid var(--clr-primary);
+  color: var(--clr-primary);
+}
+.btn-secondary:hover {
+  background: var(--clr-primary);
+  color: #fff;
+}
+
+.btn-large {
+  padding: 0.9rem 1.8rem;
+  font-size: 1.125rem;
+}
+
+/* =========  HERO  ========= */
+.hero-section {
+  position: relative;
+  padding-block: clamp(5rem, 18vh, 9rem);
+  text-align: center;
+  isolation: isolate;
+}
+
+.hero-section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 25% 25%, var(--clr-primary) 0%, transparent 40%),
+    url("https://raw.githubusercontent.com/Koen-HowtoHack/codeblocksportal/main/cdn/cdn-bestanden/space-noise.png") center / cover;
+  mix-blend-mode: overlay;
+  opacity: 0.12;
+  z-index: -1;
+}
+
+.hero-section h1 {
+  font-size: clamp(2.3rem, 6vw + 0.8rem, 4rem);
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin-bottom: 1rem;
+}
+.hero-section code {
+  color: var(--clr-primary-light);
+  font-weight: 700;
+}
+.hero-section p {
+  font-size: 1.2rem;
+  color: var(--clr-text-muted);
+  max-width: 700px;
+  margin: 0 auto 2rem;
+}
+
+/* subtiele sterren-achtergrond */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image: url("https://raw.githubusercontent.com/Koen-HowtoHack/codeblocksportal/main/cdn/cdn-bestanden/starfield.svg");
+  background-size: 600px;
+  opacity: 0.15;
+  z-index: -2;
+  animation: drift 120s linear infinite;
+}
+@keyframes drift {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-2000px);
+  }
+}
+
+/* =========  CONTENT-CARDS  ========= */
+.content-blocks {
+  padding-block: 6rem;
+  background: var(--clr-bg-accent);
+}
+
+.blocks-container {
+  display: grid;
+  gap: 3rem;
+}
+@media (min-width: 768px) {
+  .blocks-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.content-card {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: var(--radius);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: var(--transition);
+}
+.content-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
+}
+.card-image img {
+  aspect-ratio: 16/9;
+  object-fit: cover;
+}
+.card-content {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+.card-content h2 {
+  font-size: 1.45rem;
+  font-weight: 700;
+}
+
+/* =========  SPLIT SECTIONS  ========= */
+.info-section {
+  padding-block: 6rem;
+}
+.split-container {
+  display: grid;
+  gap: 3rem;
+}
+.split-container img {
+  border-radius: var(--radius);
+}
+@media (min-width: 880px) {
+  .layout-split .split-container {
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+  }
+  .layout-image-left .text-content {
+    order: 2;
+  }
+}
+.text-content h2 {
+  font-size: 2rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+}
+.text-content p,
+.text-content li {
+  color: var(--clr-text-muted);
+}
+.text-content ul {
+  list-style: none;
+  display: grid;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+.text-content ul li::before {
+  content: "âœ”";
+  color: var(--clr-primary);
+  margin-right: 0.5rem;
+}
+.large-paragraph {
+  font-size: 1.125rem;
+  margin-bottom: 2rem;
+}
+
+/* =========  FOOTER  ========= */
+footer {
+  padding-block: 2rem 3rem;
+  text-align: center;
+  color: var(--clr-text-muted);
+  font-size: 0.875rem;
+}
+footer a {
+  color: var(--clr-primary-light);
+  text-decoration: underline;
+}
+/* util */
+.alternate-bg {
+  background: var(--clr-bg-accent);
+}
+/* Scroll-reveal basis */
+.content-card,
+.split-container > * {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.6s var(--transition), transform 0.6s var(--transition);
+}
+.animate {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+
+/* Shrink-header tweaks */
+.header--shrink {
+  backdrop-filter: blur(8px);
+  background: rgba(7, 10, 25, 0.85);
+  padding-block: 0.25rem !important;
+}

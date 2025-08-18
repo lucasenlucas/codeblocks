@@ -1,4 +1,4 @@
-// main.js – animaties + 3D cube
+// main.js – animaties + 3D cube + GA4
 
 /* ====================
    Smooth scroll
@@ -90,4 +90,45 @@ if (heroTitle) {
     requestAnimationFrame(animate);
   }
   animate();
+})();
+
+/* ====================
+   GA4 via Firebase (dynamic import)
+==================== */
+(async () => {
+  try {
+    const [{ initializeApp, getApps }, { getAnalytics, isSupported, logEvent }] = await Promise.all([
+      import("https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js"),
+      import("https://www.gstatic.com/firebasejs/12.1.0/firebase-analytics.js"),
+    ]);
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyA0LcMrF62nVwXMtJFpDcPB7bviEZl7Vuk",
+      authDomain: "codeblocks-app.firebaseapp.com",
+      projectId: "codeblocks-app",
+      storageBucket: "codeblocks-app.firebasestorage.app",
+      messagingSenderId: "341679011888",
+      appId: "1:341679011888:web:125666a5a4b0ff9701d5f5",
+      measurementId: "G-EMWEQFN77C",
+    };
+
+    const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
+
+    if (!(await isSupported())) return; // bv. Safari/SSR fallback
+    const analytics = getAnalytics(app);
+
+    // standaard page view loggen
+    logEvent(analytics, "page_view", {
+      page_title: document.title,
+      page_location: location.href,
+      page_path: location.pathname,
+    });
+
+    // custom hooks voor bv. je formulier
+    window.cbDemoStart = () => logEvent(analytics, "demo_request_start");
+    window.cbDemoSuccess = () => logEvent(analytics, "demo_request_success");
+
+  } catch (e) {
+    console.warn("Analytics init skipped:", e?.message || e);
+  }
 })();

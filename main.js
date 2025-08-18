@@ -132,3 +132,4 @@ if (heroTitle) {
     console.warn("Analytics init skipped:", e?.message || e);
   }
 })();
+

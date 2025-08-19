@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Codeblocks – Documenten & voorwaarden</title>
+
+  <!-- Analytics (Plausible) -->
+  <script defer data-domain="codeblocks.nl" src="https://plausible.io/js/script.outbound-links.tagged-events.js"></script>
+  <script>
+    window.plausible = window.plausible || function(){ (window.plausible.q = window.plausible.q || []).push(arguments); }
+  </script>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet"/>
+
+  <style>
+    :root{
+      --bg:#070a19; --bg2:#10152f; --pri:#7355ff; --pri2:#a18bff;
+      --txt:#e7e9f7; --muted:#8a8fae; --r:1rem;
+      --card:#11182f; --cardB:rgba(255,255,255,.06);
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--txt);line-height:1.6}
+    a{color:inherit;text-decoration:none}
+    .wrap{width:min(92%,1200px);margin-inline:auto}
+
+    /* Header (compact) */
+    .site-header{position:sticky;top:0;z-index:10;background:rgba(7,10,25,.6);backdrop-filter:blur(6px)}
+    .header-row{display:flex;align-items:center;justify-content:space-between;padding:.6rem 0}
+    .btn{display:inline-flex;align-items:center;gap:.5rem;padding:.6rem .9rem;border-radius:.8rem;font-weight:800;border:2px solid var(--pri);color:var(--pri)}
+    .btn:hover{background:var(--pri);color:#fff}
+
+    /* Hero */
+    .hero{padding:clamp(4rem,10vw,7rem) 0;text-align:center;border-bottom:1px solid var(--cardB);
+      background:linear-gradient(180deg,rgba(115,85,255,.14),transparent 60%)}
+    .hero h1{font-size:clamp(2.1rem,4.2vw,3rem);font-weight:900;letter-spacing:-.02em}
+    .hero p{color:var(--muted);max-width:760px;margin:.9rem auto 0}
+
+    /* Grid */
+    .grid{display:grid;gap:1.2rem;margin:2rem 0 4rem}
+    @media (min-width:840px){ .grid{ grid-template-columns:repeat(2, minmax(0,1fr)); } }
+    @media (min-width:1140px){ .grid{ grid-template-columns:repeat(3, minmax(0,1fr)); } }
+
+    .card{
+      background:var(--card); border:1px solid var(--cardB); border-radius:1rem; padding:1rem;
+      display:grid; gap:.6rem; transition:.2s;
+    }
+    .card:hover{ transform:translateY(-2px); box-shadow:0 10px 25px -8px rgba(0,0,0,.35); }
+    .title{font-weight:900}
+    .meta{display:flex;gap:.5rem;align-items:center;color:var(--muted);font-size:.9rem}
+    .badge{padding:.2rem .5rem;border-radius:999px;background:#0f132c;border:1px solid var(--cardB);font-size:.75rem}
+    .actions{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.3rem}
+    .btn-primary{background:var(--pri);border:none;color:#fff;padding:.6rem .8rem;border-radius:.7rem;font-weight:800}
+    .btn-primary:hover{background:var(--pri2)}
+    .btn-ghost{background:transparent;border:1px solid var(--cardB);color:var(--txt);padding:.6rem .8rem;border-radius:.7rem;font-weight:700}
+    .btn-ghost:hover{border-color:var(--pri);color:var(--pri)}
+
+    footer{padding:1.6rem 0;border-top:1px solid var(--cardB);text-align:center;color:var(--muted)}
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="site-header">
+    <div class="wrap header-row">
+      <a href="/"><img src="https://codeblocks.nl/cdn-homepage/logo-wit.png" alt="Codeblocks" width="120"/></a>
+      <nav>
+        <a class="btn" href="/">← Terug naar home</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="wrap">
+      <h1>Documenten & voorwaarden</h1>
+      <p>Hier vind je al onze officiële documenten: algemene voorwaarden, privacy & cookies, gedragscode, beeldrecht en vrijwilligersovereenkomst.</p>
+    </div>
+  </section>
+
+  <!-- Content -->
+  <main class="wrap">
+    <div class="grid">
+
+      <!-- Algemene Voorwaarden -->
+      <article class="card">
+        <div class="title">Algemene Voorwaarden</div>
+        <div class="meta"><span class="badge">PDF</span><span>Codeblocks</span></div>
+        <div class="actions">
+          <a class="btn-primary" target="_blank" rel="noopener"
+             href="https://codeblocks.nl/cdn-homepage/docs/Algemene%20Voorwaarden%20%20Codeblocks.pdf"
+             onclick="plausible('doc-open', {props: {doc: 'Algemene Voorwaarden'}})">Openen</a>
+          <a class="btn-ghost" target="_blank" rel="noopener"
+             href="https://codeblocks.nl/cdn-homepage/docs/Algemene%20Voorwaarden%20%20Codeblocks.pdf"
+             download>Download</a>
+        </div>
+      </article>
+
+      <!-- Privacyverklaring -->
+      <article class="card">
+        <div class="title">Privacyverklaring</div>
+        <div class="meta"><span class="badge">PDF</span><span>Codeblocks</span></div>
+        <div class="actions">
+          <a class="btn-primary" target="_blank" rel="noopener"
+             href="https://codeblocks.nl/cdn-homepage/docs/Privacyverklaring%20%20Codeblocks-2%20%281%29.pdf"
+             onclick="plausible('doc-open', {props: {doc: 'Privacyverklaring'}})">Openen</a>
+          <a class="btn-ghost" target="_blank" rel="noopener"
+             href="https://codeblocks.nl/cdn-homepage/docs/Privacyverklaring%20%20Codeblocks-2%20%281%29.pdf"
+             download>Download</a>
+        </div>
+      </article>
+
+      <!-- Cookiebeleid -->
+      <article class="card">
+        <div class="title">Cookiebeleid</div>
+        <div class="meta"><span class="badge">PDF</span><span>Codeblocks</span></div>
+        <div class="actions">
+          <a class="btn-primary" target="_blank" rel="noopener"
+             href="https://codeblocks.nl/cdn-homepage/docs/Cookiebeleid%20%20Codeblocks.pdf"
+             onclick="plausible('doc-open', {props: {doc: 'Cookiebeleid'}})">Openen</a>
+          <a class="btn-ghost" target="_blank" rel="noopener"
+             href="https://codeblocks.nl/cdn-homepage/docs/Cookiebeleid%20%20Codeblocks.pdf"
+             download>Download</a>
+        </div>
+      </article>
+
+      <!-- Gedragscode -->
+      <article class="card">
+        <div class="title">Gedragscode</div>
+        <div class="meta"><span class="badge">PDF</span><span>Codeblocks</span></div>
+        <div class="actions">
+          <a class="btn-primary" target="_blank" rel="noopener"
+             href="https://codeblocks.nl/cdn-homepage/docs/Gedragscode%20%20Codeblocks.pdf"
+             onclick="plausible('doc-open', {props: {doc: 'Gedragscode'}})">Openen</a>
+          <a class="btn-ghost" target="_blank" rel="noopener"
+             href="https://codeblocks.nl/cdn-homepage/docs/Gedragscode%20%20Codeblocks.pdf"
+             download>Download</a>
+        </div>
+      </article>
+
+      <!-- Beeldrecht-toestemming -->
+      <article class="card">
+        <div class="title">Beeldrecht-toestemming</div>
+        <div class="meta"><span class="badge">PDF</span><span>Codeblocks</span></div>
+        <div class="actions">
+          <a class="btn-primary" target="_blank" rel="noopener"
+             href="https://codeblocks.nl/cdn-homepage/docs/Beeldrecht-toestemming%20%20Codeblocks.pdf"
+             onclick="plausible('doc-open', {props: {doc: 'Beeldrecht-toestemming'}})">Openen</a>
+          <a class="btn-ghost" target="_blank" rel="noopener"
+             href="https://codeblocks.nl/cdn-homepage/docs/Beeldrecht-toestemming%20%20Codeblocks.pdf"
+             download>Download</a>
+        </div>
+      </article>
+
+      <!-- Vrijwilligersovereenkomst -->
+      <article class="card">
+        <div class="title">Vrijwilligersovereenkomst</div>
+        <div class="meta"><span class="badge">PDF</span><span>Codeblocks</span></div>
+        <div class="actions">
+          <a class="btn-primary" target="_blank" rel="noopener"
+             href="https://codeblocks.nl/cdn-homepage/docs/Vrijwilligersovereenkomst%20%20Codeblocks-2%20%281%29.pdf"
+             onclick="plausible('doc-open', {props: {doc: 'Vrijwilligersovereenkomst'}})">Openen</a>
+          <a class="btn-ghost" target="_blank" rel="noopener"
+             href="https://codeblocks.nl/cdn-homepage/docs/Vrijwilligersovereenkomst%20%20Codeblocks-2%20%281%29.pdf"
+             download>Download</a>
+        </div>
+      </article>
+
+      <!-- Intern document (optioneel afgeschermd) -->
+      <!--
+      <article class="card">
+        <div class="title">Intern document</div>
+        <div class="meta"><span class="badge">PDF</span><span>Alleen personeel</span></div>
+        <div class="actions">
+          <a class="btn-primary" href="/admin/intern.html">Openen (login vereist)</a>
+        </div>
+      </article>
+      -->
+
+    </div>
+  </main>
+
+  <footer>
+    © 2025 Codeblocks • Een initiatief van
+    <a href="https://howtohack.nl" target="_blank" rel="noopener" style="color:#a18bff;text-decoration:underline">How to Hack</a>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>One Click — Sim 3</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --clr-bg:#070a19;--clr-primary:#7355ff;--clr-primary-light:#a18bff;--clr-text:#e7e9f7;--clr-muted:#8a8fae
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      background:var(--clr-bg);
+      color:var(--clr-text);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      padding:clamp(16px,3vw,32px)
+    }
+
+    main{width:min(92%,900px)}
+    h1{
+      font-family:'Press Start 2P',monospace;
+      font-size:15px;
+      color:var(--clr-primary-light);
+      margin-bottom:22px;
+      animation:fadeIn .8s ease forwards
+    }
+    p{
+      color:var(--clr-muted);
+      margin-bottom:24px;
+      animation:fadeIn .8s ease .3s forwards
+    }
+
+    iframe{
+      width:100%;
+      aspect-ratio:16/9;
+      border:none;
+      border-radius:14px;
+      box-shadow:0 20px 60px rgba(0,0,0,.45);
+      animation:fadeIn .8s ease .6s forwards;
+      margin-bottom:28px
+    }
+
+    .btn{
+      display:inline-block;
+      padding:.7rem 1.2rem;
+      border:none;
+      border-radius:10px;
+      background:linear-gradient(90deg,var(--clr-primary),var(--clr-primary-light));
+      color:#fff;
+      font-weight:800;
+      cursor:pointer;
+      animation:fadeIn .8s ease .9s forwards
+    }
+
+    @keyframes fadeIn{
+      from{opacity:0;transform:translateY(20px)}
+      to{opacity:1;transform:translateY(0)}
+    }
+
+    body::before{
+      content:'';
+      position:fixed;
+      inset:0;
+      background:url('https://raw.githubusercontent.com/Koen-HowtoHack/codeblocksportal/main/cdn/cdn-bestanden/starfield.svg') center/600px repeat;
+      opacity:.12;
+      z-index:-1;
+      animation:stars 140s linear infinite
+    }
+    @keyframes stars{
+      from{transform:translateY(0)}
+      to{transform:translateY(-2200px)}
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Wat ging hieraan vooraf?</h1>
+    <h1>Luister naar het (fictieve) telefoongesprek tussen de portefeuillehouder ICT binnen het CvB en het hoofd IT op Kerstavond 2019:</h1>
+
+    <iframe src="https://www.youtube.com/embed/1175jyhNxKU" title="Telefoongesprek Maastricht University hack" allowfullscreen></iframe>
+
+    <!-- aangepast naar one-click -->
+    <a class="btn" href="/one-click/sim/4">Volgende</a>
+  </main>
+</body>
+</html>

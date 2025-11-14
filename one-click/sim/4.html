@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>One Click — Sim 4</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <style>
+    :root{--bg:#070a19;--card:#0f1730;--accent:#7355ff;--accent2:#a18bff;--muted:#8a8fae;--text:#e7e9f7}
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:clamp(16px,3vw,28px)
+    }
+    .wrap{width:min(92%,1100px)}
+    h1.title{
+      font-family:'Press Start 2P',monospace;
+      color:var(--accent);
+      font-size:1.05rem;
+      margin-bottom:18px
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+      gap:16px;
+      margin-top:16px
+    }
+    .item{
+      background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(255,255,255,.01));
+      border:1px solid rgba(255,255,255,.04);
+      padding:16px;
+      border-radius:12px;
+      display:flex;
+      gap:12px;
+      align-items:flex-start;
+      box-shadow:0 12px 36px rgba(0,0,0,.45);
+      transform:translateY(18px);
+      opacity:0;
+      animation:pop .6s forwards
+    }
+    .item:nth-child(1){animation-delay:.08s}
+    .item:nth-child(2){animation-delay:.16s}
+    .item:nth-child(3){animation-delay:.24s}
+    .item:nth-child(4){animation-delay:.32s}
+    .item:nth-child(5){animation-delay:.40s}
+    .item:nth-child(6){animation-delay:.48s}
+    .item:nth-child(7){animation-delay:.56s}
+    .item:nth-child(8){animation-delay:.64s}
+    .item:nth-child(9){animation-delay:.72s}
+
+    @keyframes pop{to{transform:none;opacity:1}}
+
+    .icon{
+      width:46px;
+      height:46px;
+      border-radius:8px;
+      display:grid;
+      place-items:center;
+      background:linear-gradient(180deg,rgba(115,85,255,.12),rgba(161,139,255,.08));
+      flex-shrink:0
+    }
+    .text{display:flex;flex-direction:column}
+    .text .title{font-weight:700;color:var(--text);margin-bottom:6px}
+    .text .desc{color:var(--muted);font-size:.95rem;line-height:1.25}
+
+    .consequence{
+      margin-top:40px;
+      text-align:center
+    }
+    .consequence h1{
+      font-family:'Press Start 2P',monospace;
+      color:var(--accent2);
+      font-size:1.4rem;
+      line-height:1.4;
+      margin-bottom:20px
+    }
+
+    .actions{
+      margin-top:20px;
+      text-align:center
+    }
+    .btn{
+      display:inline-block;
+      padding:.68rem 1.15rem;
+      border-radius:10px;
+      background:linear-gradient(90deg,var(--accent),var(--accent2));
+      border:none;
+      color:#fff;
+      font-weight:800;
+      cursor:pointer
+    }
+
+    svg{width:28px;height:28px;display:block}
+
+    @media(max-width:900px){.consequence h1{font-size:1.1rem}}
+    @media(max-width:520px){
+      .item{gap:10px;padding:12px}
+      .icon{width:40px;height:40px}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1 class="title">Overzicht — Wat is gehackt?</h1>
+
+    <div class="grid">
+      <!-- jouw 9 items exact zoals je stuurde -->
+      <div class="item">
+        <div class="icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="3" width="20" height="6" rx="1" fill="#7355ff" /><rect x="2" y="11" width="20" height="6" rx="1" fill="#a18bff" /><rect x="2" y="19" width="20" height="2" rx="1" fill="#7355ff" /></svg>
+        </div>
+        <div class="text"><div class="title">260 servers gehackt</div><div class="desc">Veel productie- en back-up servers zijn versleuteld en onbereikbaar.</div></div>
+      </div>
+
+      <div class="item">
+        <div class="icon">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M6 3h9l4 4v11a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z" fill="#7355ff"/><path d="M12 14a2 2 0 0 0-2 2v1h4v-1a2 2 0 0 0-2-2z" fill="#a18bff"/></svg>
+        </div>
+        <div class="text"><div class="title">Miljoenen bestanden versleuteld</div><div class="desc">Onderwijs- en onderzoeksdata, persoonlijke bestanden en back-ups zijn getroffen.</div></div>
+      </div>
+
+      <div class="item">
+        <div class="icon">
+          <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" fill="#f0b90b"/><path d="M11 7v10M13 7v10" stroke="#000" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="text"><div class="title">Vele bitcoins & losgeld betaald</div><div class="desc">Herstel werd deels gefinancierd met cryptotransacties en losgeldbetalingen.</div></div>
+      </div>
+
+      <div class="item">
+        <div class="icon">
+          <svg viewBox="0 0 24 24" fill="none"><circle cx="8" cy="8" r="2.2" fill="#7355ff"/><circle cx="16" cy="8" r="2.2" fill="#a18bff"/><path d="M4 18c1.6-2 4-3 8-3s6.4 1 8 3" stroke="#cdd" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="text"><div class="title">Ongeveer 250 personen betrokken</div><div class="desc">IT, onderzoekers, management, externe consultants en meer — iedereen werd betrokken.</div></div>
+      </div>
+
+      <div class="item">
+        <div class="icon">
+          <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" fill="#8fd1ff"/><path d="M12 7v6l4 2" stroke="#022" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="text"><div class="title">10 dagen inspanning (kerstvakantie)</div><div class="desc">Technici werkten onafgebroken tijdens de kerstperiode aan herstel en onderzoek.</div></div>
+      </div>
+
+      <div class="item">
+        <div class="icon">
+          <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="3" fill="#7355ff"/><text x="50%" y="58%" dominant-baseline="middle" text-anchor="middle" font-size="9" fill="#fff">15k</text></svg>
+        </div>
+        <div class="text"><div class="title">~15.000 uur werk</div><div class="desc">Totaal geschat personeelsuren voor herstel, onderzoek en communicatie.</div></div>
+      </div>
+
+      <div class="item">
+        <div class="icon">
+          <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="6" width="18" height="14" rx="1" fill="#a18bff"/><path d="M7 10h2M7 14h2M7 18h2M11 10h2M11 14h2M11 18h2M15 10h2M15 14h2" stroke="#fff" stroke-width="0.8"/></svg>
+        </div>
+        <div class="text"><div class="title">Alle afdelingen betrokken</div><div class="desc">Onderwijs, onderzoek, administratie en facilitaire diensten werden geraakt.</div></div>
+      </div>
+
+      <div class="item">
+        <div class="icon">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M3 12h18M12 3v18" stroke="#fff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="18" cy="6" r="2" fill="#7355ff"/></svg>
+        </div>
+        <div class="text"><div class="title">Externe IT-dienst ingehuurd</div><div class="desc">Specialistische leveranciers ondersteunden bij forensisch onderzoek en herstel.</div></div>
+      </div>
+
+      <div class="item">
+        <div class="icon">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M12 2l3 6h6l-4.8 3.6L19 20l-7-4-7 4 1.8-8.4L2 8h6z" fill="#ffd66b"/></svg>
+        </div>
+        <div class="text"><div class="title">Politie, justitie en ministerie betrokken</div><div class="desc">Onderzoeken en meldingen werden opgepakt door nationale autoriteiten.</div></div>
+      </div>
+    </div>
+
+    <div class="consequence">
+      <h1>De consequenties van die ene klik op een verkeerde link zijn gigantisch...</h1>
+    </div>
+
+    <div class="actions">
+      <!-- aangepast naar /one-click -->
+      <a class="btn" href="/one-click/sim/5">Volgende</a>
+    </div>
+  </div>
+</body>
+</html>

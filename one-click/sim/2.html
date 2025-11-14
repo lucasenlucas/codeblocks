@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>One Click — Sim 2</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --clr-bg:#070a19;--clr-primary:#7355ff;--clr-primary-light:#a18bff;--clr-text:#e7e9f7;--clr-muted:#8a8fae;--radius:10px
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      background:var(--clr-bg);
+      color:var(--clr-text);
+      overflow:hidden;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .container{width:min(92%,900px);text-align:center}
+    img{
+      width:100%;
+      max-width:800px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.1);
+      box-shadow:0 20px 60px rgba(0,0,0,.45);
+      margin-bottom:24px;
+      opacity:0;
+      transform:translateY(20px);
+      animation:fadeIn .8s ease forwards;
+    }
+    h1{
+      font-family:'Press Start 2P',monospace;
+      font-size:14px;
+      line-height:1.5;
+      color:var(--clr-primary-light);
+      margin-bottom:28px;
+      opacity:0;
+      animation:fadeIn .8s ease .3s forwards;
+    }
+    .btn{
+      display:inline-block;
+      padding:.7rem 1.2rem;
+      border:none;
+      border-radius:10px;
+      background:linear-gradient(90deg,var(--clr-primary),var(--clr-primary-light));
+      color:#fff;
+      font-weight:800;
+      cursor:pointer;
+      opacity:0;
+      animation:fadeIn .8s ease .6s forwards;
+    }
+
+    @keyframes fadeIn{to{opacity:1;transform:translateY(0)}}
+
+    body::before{
+      content:'';
+      position:fixed;
+      inset:0;
+      background:url('https://raw.githubusercontent.com/Koen-HowtoHack/codeblocksportal/main/cdn/cdn-bestanden/starfield.svg') center/600px repeat;
+      opacity:.12;
+      z-index:-1;
+      animation:stars 140s linear infinite
+    }
+    @keyframes stars{
+      from{transform:translateY(0)}
+      to{transform:translateY(-2200px)}
+    }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <img src="https://codeblocks.nl/one-click/foto_krantenkop_p2.png" alt="Krantenkop Maastricht University hack" />
+    <h1>Met deze krantenkop werd Nederland eind 2019 wakker...</h1>
+
+    <!-- hier aangepast -->
+    <a class="btn" href="/one-click/sim/3">Next</a>
+
+  </main>
+</body>
+</html>

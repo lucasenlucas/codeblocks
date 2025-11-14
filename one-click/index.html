@@ -1,1 +1,825 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>One Click Simulator</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --clr-bg:#050615;
+      --clr-bg-deep:#02030a;
+      --clr-primary:#7355ff;
+      --clr-primary-light:#a18bff;
+      --clr-accent:#35f0c9;
+      --clr-danger:#ff4f6a;
+      --clr-text:#e7e9f7;
+      --clr-muted:#8a8fae;
+      --radius:12px;
+      --transition:220ms ease;
+    }
 
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      background:var(--clr-bg);
+      color:var(--clr-text);
+      -webkit-font-smoothing:antialiased;
+      overflow-x:hidden;
+    }
+
+    .container{width:min(92%,1100px);margin:0 auto}
+
+    /* GLOBAL BACKGROUND DECORATION */
+    .page-bg{
+      position:fixed;
+      inset:0;
+      z-index:-1;
+      background:
+        radial-gradient(circle at top, #251a5a 0, #050615 40%, #01020a 100%);
+      pointer-events:none;
+    }
+    .page-bg::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        linear-gradient(transparent 90%, rgba(0,0,0,.25) 100%),
+        repeating-linear-gradient(
+          to right,
+          rgba(255,255,255,.03) 0,
+          rgba(255,255,255,.03) 1px,
+          transparent 1px,
+          transparent 24px
+        ),
+        repeating-linear-gradient(
+          to bottom,
+          rgba(255,255,255,.03) 0,
+          rgba(255,255,255,.03) 1px,
+          transparent 1px,
+          transparent 24px
+        );
+      opacity:.3;
+    }
+    .page-bg::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:radial-gradient(circle at 10% 90%,rgba(53,240,201,.24),transparent 55%);
+      mix-blend-mode:screen;
+      opacity:.5;
+    }
+
+    /* HEADER */
+    .site-header{
+      position:sticky;
+      top:0;
+      z-index:40;
+      backdrop-filter:blur(10px);
+      background:linear-gradient(
+        to bottom,
+        rgba(7,10,25,.92),
+        rgba(7,10,25,.75),
+        transparent
+      );
+      border-bottom:1px solid rgba(255,255,255,.04);
+    }
+    .header-inner{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:1rem;
+      padding:.7rem 0;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:.9rem;
+    }
+    .logo-box{
+      width:48px;
+      height:36px;
+      border-radius:10px;
+      background:radial-gradient(circle at 30% 0,#2e2a5f,#050615);
+      display:grid;
+      place-items:center;
+      border:1px solid rgba(255,255,255,.12);
+      box-shadow:
+        0 0 0 1px rgba(115,85,255,.25),
+        0 12px 30px rgba(4,0,36,.9);
+      position:relative;
+      overflow:hidden;
+    }
+    .logo-box::after{
+      content:"";
+      position:absolute;
+      inset:-40%;
+      background:conic-gradient(from 220deg,rgba(115,85,255,.1),transparent,rgba(53,240,201,.14),transparent);
+      animation:spin 16s linear infinite;
+      mix-blend-mode:screen;
+    }
+    .logo-pixel{
+      width:14px;
+      height:14px;
+      background:var(--clr-primary);
+      border-radius:3px;
+      box-shadow:0 0 12px rgba(115,85,255,.9);
+      position:relative;
+      z-index:1;
+    }
+    .brand-text{
+      display:flex;
+      flex-direction:column;
+      line-height:1.1;
+    }
+    .brand-text .name{
+      font-weight:800;
+      letter-spacing:.03em;
+    }
+    .brand-text .sub{
+      font-size:.7rem;
+      color:var(--clr-muted);
+      text-transform:uppercase;
+      letter-spacing:.09em;
+    }
+
+    .nav-right{
+      display:flex;
+      align-items:center;
+      gap:.75rem;
+    }
+    .sim-year{
+      background:radial-gradient(circle at 0 0,rgba(53,240,201,.15),transparent 55%);
+      padding:.45rem .7rem;
+      border-radius:.5rem;
+      border:1px solid rgba(255,255,255,.07);
+      text-align:center;
+      box-shadow:0 0 18px rgba(53,240,201,.12);
+    }
+    .sim-year .label{
+      font-size:.64rem;
+      color:var(--clr-muted);
+      display:block;
+      text-transform:uppercase;
+      letter-spacing:.09em;
+    }
+    .sim-year .year{
+      font-family:'Press Start 2P',monospace;
+      color:var(--clr-accent);
+      font-size:.8rem;
+    }
+
+    .btn{
+      cursor:pointer;
+      border:none;
+      padding:.6rem 1.1rem;
+      border-radius:999px;
+      font-weight:700;
+      font-size:.9rem;
+      display:inline-flex;
+      align-items:center;
+      gap:.45rem;
+      position:relative;
+      overflow:hidden;
+      isolation:isolate;
+      transition:
+        transform var(--transition),
+        box-shadow var(--transition),
+        background var(--transition),
+        border-color var(--transition),
+        opacity 160ms ease;
+    }
+    .btn span.icon{
+      font-size:.9em;
+      opacity:.9;
+    }
+    .btn-primary{
+      background:linear-gradient(120deg,var(--clr-primary),var(--clr-primary-light));
+      color:#fff;
+      box-shadow:
+        0 0 0 1px rgba(115,85,255,.35),
+        0 10px 28px rgba(9,2,46,.9);
+    }
+    .btn-primary::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:linear-gradient(90deg,rgba(255,255,255,.18),transparent 40%,transparent 60%,rgba(255,255,255,.18));
+      opacity:0;
+      transform:translateX(-40%);
+      transition:transform 480ms ease, opacity 280ms ease;
+      mix-blend-mode:screen;
+      pointer-events:none;
+    }
+    .btn-primary:hover{
+      transform:translateY(-1px) scale(1.02);
+      box-shadow:
+        0 0 0 1px rgba(161,139,255,.6),
+        0 16px 36px rgba(5,1,30,.95);
+    }
+    .btn-primary:hover::after{
+      opacity:1;
+      transform:translateX(40%);
+    }
+    .btn-ghost{
+      background:rgba(7,10,25,.6);
+      border:1px solid rgba(255,255,255,.08);
+      color:var(--clr-muted);
+      backdrop-filter:blur(12px);
+    }
+    .btn-ghost:hover{
+      border-color:rgba(255,255,255,.22);
+      color:var(--clr-text);
+      transform:translateY(-1px);
+      box-shadow:0 10px 26px rgba(2,0,20,.7);
+    }
+
+    /* HERO */
+    .hero{
+      padding:8vh 0 7vh;
+      min-height:60vh;
+      display:flex;
+      align-items:center;
+    }
+    .hero-inner{
+      display:grid;
+      grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);
+      gap:2.8rem;
+      align-items:center;
+    }
+
+    .pixel-title{
+      display:inline-block;
+      padding:1.1rem 1.3rem;
+      border-radius:14px;
+      background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(9,12,33,.8));
+      border:1px solid rgba(255,255,255,.1);
+      position:relative;
+      box-shadow:
+        0 22px 60px rgba(0,0,0,.7),
+        0 0 0 1px rgba(115,85,255,.18);
+    }
+    .pixel-title::before{
+      content:"MISSION BRIEFING";
+      position:absolute;
+      top:-0.7rem;
+      left:1.1rem;
+      font-family:'Press Start 2P',monospace;
+      font-size:.5rem;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      padding:.2rem .5rem;
+      border-radius:999px;
+      background:#050615;
+      border:1px solid rgba(255,255,255,.16);
+      color:var(--clr-muted);
+    }
+    .pixel-title .big{
+      font-family:'Press Start 2P',monospace;
+      font-size:1.02rem;
+      color:var(--clr-primary-light);
+      text-shadow:0 0 18px rgba(115,85,255,.8);
+      letter-spacing:.12em;
+    }
+    .pixel-title .small{
+      display:block;
+      margin-top:.75rem;
+      font-size:.86rem;
+      color:var(--clr-muted);
+      max-width:640px;
+      line-height:1.6;
+    }
+
+    .cta{
+      margin-top:1.5rem;
+      display:flex;
+      flex-wrap:wrap;
+      gap:.7rem;
+      align-items:center;
+    }
+    .cta-hint{
+      font-size:.78rem;
+      color:var(--clr-muted);
+      display:flex;
+      align-items:center;
+      gap:.4rem;
+    }
+    .cta-hint-dot{
+      width:8px;
+      height:8px;
+      border-radius:999px;
+      background:var(--clr-accent);
+      box-shadow:0 0 14px rgba(53,240,201,.9);
+      animation:pulse 1.6s ease-out infinite;
+    }
+
+    /* HERO SIDE PANEL (GAME HUD) */
+    .hero-hud{
+      display:flex;
+      flex-direction:column;
+      gap:1.1rem;
+    }
+    .hud-card{
+      background:radial-gradient(circle at 0 0,rgba(161,139,255,.24),transparent 60%);
+      border-radius:var(--radius);
+      padding:1rem 1.1rem;
+      border:1px solid rgba(255,255,255,.12);
+      box-shadow:0 18px 48px rgba(0,0,0,.9);
+      position:relative;
+      overflow:hidden;
+    }
+    .hud-card::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:linear-gradient(
+        135deg,
+        rgba(3,255,194,.06),
+        transparent 35%,
+        transparent 65%,
+        rgba(115,85,255,.18)
+      );
+      opacity:.6;
+      mix-blend-mode:soft-light;
+      pointer-events:none;
+    }
+    .hud-title-row{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:.7rem;
+      margin-bottom:.55rem;
+    }
+    .hud-label{
+      font-size:.7rem;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      color:var(--clr-muted);
+    }
+    .hud-pill{
+      font-size:.68rem;
+      border-radius:999px;
+      padding:.2rem .6rem;
+      background:rgba(5,6,21,.85);
+      border:1px solid rgba(255,255,255,.16);
+      display:flex;
+      align-items:center;
+      gap:.28rem;
+    }
+    .hud-pill-dot{
+      width:7px;
+      height:7px;
+      border-radius:50%;
+      background:var(--clr-danger);
+      box-shadow:0 0 12px rgba(255,79,106,.9);
+      animation:blink 1.4s steps(2,end) infinite;
+    }
+    .hud-main-text{
+      font-size:.85rem;
+      color:var(--clr-text);
+      line-height:1.5;
+      margin-bottom:.65rem;
+    }
+    .hud-meta{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:.6rem;
+      font-size:.76rem;
+    }
+    .hud-meta-item span.label{
+      display:block;
+      color:var(--clr-muted);
+      font-size:.7rem;
+      margin-bottom:.12rem;
+    }
+    .hud-meta-item span.value{
+      font-family:'Press Start 2P',monospace;
+      font-size:.6rem;
+    }
+    .hud-progress{
+      margin-top:.6rem;
+    }
+    .hud-progress-label{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      font-size:.7rem;
+      color:var(--clr-muted);
+      margin-bottom:.25rem;
+    }
+    .hud-bar{
+      position:relative;
+      height:7px;
+      border-radius:999px;
+      background:rgba(8,10,32,.9);
+      overflow:hidden;
+    }
+    .hud-bar-fill{
+      position:absolute;
+      inset:0;
+      background:linear-gradient(90deg,var(--clr-danger),var(--clr-primary),var(--clr-accent));
+      transform-origin:left;
+      animation:charge 4.2s cubic-bezier(.19,1,.22,1) infinite alternate;
+    }
+
+    /* FOOTER */
+    footer{
+      text-align:center;
+      padding:1.25rem;
+      color:var(--clr-muted);
+      font-size:.8rem;
+      border-top:1px solid rgba(255,255,255,.06);
+      background:linear-gradient(to top,rgba(2,3,15,.96),transparent);
+      margin-top:2rem;
+    }
+
+    /* OVERLAY PIXEL ANIMATION */
+    .overlay{
+      position:fixed;
+      inset:0;
+      background:radial-gradient(circle at 50% 10%,rgba(161,139,255,.3),#050406 65%,#000 100%);
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      z-index:120;
+      visibility:hidden;
+      opacity:0;
+      transition:opacity .3s ease;
+    }
+    .overlay.show{
+      visibility:visible;
+      opacity:1;
+    }
+    .overlay::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        repeating-linear-gradient(
+          to bottom,
+          rgba(255,255,255,.08) 0,
+          rgba(255,255,255,.08) 1px,
+          transparent 1px,
+          transparent 3px
+        );
+      mix-blend-mode:soft-light;
+      opacity:.13;
+      pointer-events:none;
+    }
+    canvas{
+      display:block;
+      width:100%;
+      height:100%;
+    }
+    .typing-wrap{
+      position:absolute;
+      top:50%;
+      left:50%;
+      transform:translate(-50%,-50%);
+      text-align:center;
+      color:var(--clr-text);
+      pointer-events:none;
+      max-width:580px;
+      padding:1.6rem 1.8rem;
+      border-radius:16px;
+      background:radial-gradient(circle at 0 0,rgba(53,240,201,.2),transparent 60%);
+    }
+    .typing{
+      font-family:'Press Start 2P',monospace;
+      font-size:13px;
+      white-space:pre;
+      letter-spacing:1px;
+      text-shadow:0 0 12px rgba(0,0,0,.9);
+    }
+    .year-display{
+      font-family:'Press Start 2P',monospace;
+      font-size:22px;
+      color:var(--clr-accent);
+      margin-top:14px;
+      text-shadow:0 0 20px rgba(53,240,201,.9);
+      letter-spacing:.14em;
+    }
+    .go-btn{
+      margin-top:18px;
+      padding:.6rem 1rem;
+      border-radius:999px;
+      background:linear-gradient(120deg,var(--clr-primary),var(--clr-primary-light));
+      color:#fff;
+      border:none;
+      font-weight:800;
+      display:none;
+      pointer-events:auto;
+      box-shadow:
+        0 0 0 1px rgba(115,85,255,.35),
+        0 12px 30px rgba(6,0,32,.9);
+      cursor:pointer;
+      font-size:.8rem;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+    }
+    .go-btn:hover{
+      transform:translateY(-1px);
+      box-shadow:
+        0 0 0 1px rgba(161,139,255,.7),
+        0 16px 38px rgba(1,0,25,1);
+    }
+
+    /* small responsive */
+    @media(max-width:920px){
+      .hero-inner{
+        grid-template-columns:minmax(0,1fr);
+        gap:2.3rem;
+      }
+      .hero{
+        padding:6vh 0 6vh;
+      }
+      .hero-hud{
+        order:-1;
+      }
+    }
+    @media(max-width:620px){
+      .pixel-title{
+        padding:.95rem 1rem;
+      }
+      .pixel-title .small{
+        font-size:.8rem;
+      }
+      .nav-right{
+        gap:.5rem;
+      }
+      .sim-year{
+        display:none;
+      }
+      .typing-wrap{
+        width:88%;
+        padding:1.2rem 1.3rem;
+      }
+      .typing{
+        font-size:11px;
+      }
+      .year-display{
+        font-size:18px;
+      }
+    }
+
+    /* ANIMATIONS */
+    @keyframes spin{
+      to{transform:rotate(360deg);}
+    }
+    @keyframes pulse{
+      0%,100%{transform:scale(1);opacity:.7;}
+      50%{transform:scale(1.3);opacity:1;}
+    }
+    @keyframes blink{
+      0%,50%{opacity:1;}
+      50.01%,100%{opacity:.1;}
+    }
+    @keyframes charge{
+      0%{transform:scaleX(.25);}
+      50%{transform:scaleX(.6);}
+      100%{transform:scaleX(1);}
+    }
+  </style>
+</head>
+<body>
+  <div class="page-bg" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <div class="logo-box" aria-hidden="true"><div class="logo-pixel"></div></div>
+        <div class="brand-text">
+          <div class="name">Codeblocks</div>
+          <div class="sub">One Click Simulator</div>
+        </div>
+      </div>
+
+      <div class="nav-right">
+        <div class="sim-year" aria-hidden="true">
+          <span class="label">Simulator Year</span>
+          <span class="year" id="navYear">2025</span>
+        </div>
+        <button class="btn btn-ghost" type="button">
+          <span class="icon">🎮</span><span>Demo-modus</span>
+        </button>
+        <button class="btn btn-primary" id="startBtn" type="button">
+          <span class="icon">▶</span><span>Start simulator</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="hero">
+    <div class="container hero-inner">
+      <!-- HUD / GAME INFO RIGHT -->
+      <aside class="hero-hud" aria-label="Simulator status">
+        <div class="hud-card">
+          <div class="hud-title-row">
+            <span class="hud-label">Scenario</span>
+            <div class="hud-pill">
+              <div class="hud-pill-dot" aria-hidden="true"></div>
+              <span>Live sim</span>
+            </div>
+          </div>
+          <p class="hud-main-text">
+            Speel jij de hoofdrol in de digitale tijdreis naar de hack bij Maastricht University.
+            Elke klik stuurt de simulatie een stap verder richting 2019.
+          </p>
+          <div class="hud-meta">
+            <div class="hud-meta-item">
+              <span class="label">Rol</span>
+              <span class="value">Analyst_01</span>
+            </div>
+            <div class="hud-meta-item">
+              <span class="label">Moeilijkheid</span>
+              <span class="value">★☆☆☆☆</span>
+            </div>
+            <div class="hud-meta-item">
+              <span class="label">Sim modus</span>
+              <span class="value">Story</span>
+            </div>
+            <div class="hud-meta-item">
+              <span class="label">Status</span>
+              <span class="value">Actief</span>
+            </div>
+          </div>
+          <div class="hud-progress" aria-hidden="true">
+            <div class="hud-progress-label">
+              <span>Time-jump lading</span>
+              <span>↑ 2019</span>
+            </div>
+            <div class="hud-bar">
+              <div class="hud-bar-fill"></div>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- MAIN TITLE LEFT -->
+      <section>
+        <div class="pixel-title">
+          <div class="big">ONE CLICK SIMULATOR</div>
+          <div class="small">
+            Een complete, verhalende simulator waarin je met &eacute;&eacute;n klik de tijd
+            terugspoelt naar de hack bij Maastricht University. Druk op start en volg de stappen.
+          </div>
+        </div>
+
+        <div class="cta">
+          <button class="btn btn-primary" id="heroStart" type="button">
+            <span class="icon"</span><span>Start tijdsprong</span>
+          </button>
+          <button class="btn btn-ghost" type="button">
+            <span class="icon">ℹ</span><span>Korte uitleg</span>
+          </button>
+          <div class="cta-hint">
+            <span class="cta-hint-dot" aria-hidden="true"></span>
+            <span>Tip: zet je geluid aan voor extra sfeer.</span>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer>© <span id="footYear">2025</span> Codeblocks • One Click</footer>
+
+  <!-- overlay with pixel canvas + typing/year animation -->
+  <div class="overlay" id="overlay" aria-hidden="true">
+    <canvas id="c"></canvas>
+    <div class="typing-wrap">
+      <div class="typing" id="typingLine"></div>
+      <div class="year-display" id="yearDisplay"></div>
+      <button class="go-btn" id="go2019" type="button">Ga naar 2019</button>
+    </div>
+  </div>
+
+  <script>
+    const currentYear = new Date().getFullYear();
+    document.getElementById('navYear').textContent = currentYear;
+    document.getElementById('footYear').textContent = currentYear;
+
+    const startBtns = [document.getElementById('startBtn'), document.getElementById('heroStart')];
+    const overlay = document.getElementById('overlay');
+    const canvas = document.getElementById('c');
+    const ctx = canvas.getContext('2d');
+    const typingLine = document.getElementById('typingLine');
+    const yearDisplay = document.getElementById('yearDisplay');
+    const goBtn = document.getElementById('go2019');
+
+    let anim = null;
+    let sequenceRunning = false;
+
+    function resize(){
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = Math.floor(window.innerWidth * dpr);
+      canvas.height = Math.floor(window.innerHeight * dpr);
+      canvas.style.width = window.innerWidth + 'px';
+      canvas.style.height = window.innerHeight + 'px';
+      ctx.setTransform(dpr,0,0,dpr,0,0);
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    // pixel noise animation
+    function startPixelAnim(){
+      const cols = Math.ceil(window.innerWidth / 8);
+      const rows = Math.ceil(window.innerHeight / 8);
+      let t = 0;
+      function frame(){
+        t += 0.02;
+        ctx.fillStyle = '#050406';
+        ctx.fillRect(0,0,window.innerWidth,window.innerHeight);
+        for(let x=0;x<cols;x++){
+          for(let y=0;y<rows;y++){
+            const n = Math.abs(Math.sin((x*12 + y*6 + t*10)/8));
+            const alpha = Math.max(0, n - 0.6) * 2;
+            if(Math.random() < 0.03) continue;
+            ctx.fillStyle = `rgba(115,85,255,${alpha})`;
+            ctx.fillRect(x*8 + (Math.random()*1.5-0.75), y*8 + (Math.random()*1.5-0.75), 6,6);
+          }
+        }
+        anim = requestAnimationFrame(frame);
+      }
+      anim = requestAnimationFrame(frame);
+    }
+    function stopPixelAnim(){
+      if(anim) cancelAnimationFrame(anim);
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+    }
+
+    function typeText(el, text, speed=50){
+      return new Promise((res)=>{
+        el.textContent = '';
+        let i=0;
+        const id = setInterval(()=>{
+          el.textContent += text.charAt(i);
+          i++;
+          if(i>=text.length){
+            clearInterval(id);
+            res();
+          }
+        }, speed);
+      });
+    }
+
+    function countdownYear(from, to, duration){
+      return new Promise((res)=>{
+        const start = performance.now();
+        function step(nowT){
+          const elapsed = nowT - start;
+          const pct = Math.min(1, elapsed / duration);
+          const current = Math.round(from + (to - from) * pct);
+          yearDisplay.textContent = current;
+          document.getElementById('navYear').textContent = current;
+          if(pct < 1){
+            requestAnimationFrame(step);
+          } else {
+            res();
+          }
+        }
+        requestAnimationFrame(step);
+      });
+    }
+
+    async function runSequence(){
+      if(sequenceRunning) return;
+      sequenceRunning = true;
+
+      overlay.classList.add('show');
+      overlay.setAttribute('aria-hidden','false');
+      startPixelAnim();
+
+      await new Promise(r=>setTimeout(r,300));
+      await typeText(typingLine, 'Terug in de tijd...');
+      await new Promise(r=>setTimeout(r,250));
+      await countdownYear(currentYear, 2019, 5000);
+
+      stopPixelAnim();
+      goBtn.style.display = 'inline-block';
+    }
+
+    // EVENTS
+    startBtns.forEach(b=>b.addEventListener('click', runSequence));
+    document.getElementById('startBtn').addEventListener('keydown', (e)=>{
+      if(e.key === 'Enter') runSequence();
+    });
+
+    overlay.addEventListener('click', (e)=>{
+      // Klik op zwarte rand sluit de overlay
+      if(e.target === overlay){
+        overlay.classList.remove('show');
+        overlay.setAttribute('aria-hidden','true');
+        stopPixelAnim();
+        document.getElementById('navYear').textContent = currentYear;
+        sequenceRunning = false;
+      }
+    });
+
+    goBtn.addEventListener('click', ()=>{
+      location.href = '/sim/1';
+    });
+  </script>
+</body>
+</html>

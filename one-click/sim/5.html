@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>One Click — Sim 5</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --clr-bg:#050615;
+      --clr-bg-deep:#02030a;
+      --clr-primary:#7355ff;
+      --clr-primary-light:#a18bff;
+      --clr-accent:#35f0c9;
+      --clr-text:#e7e9f7;
+      --clr-muted:#8a8fae;
+      --radius:18px;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      background:var(--clr-bg);
+      color:var(--clr-text);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      overflow:hidden;
+      -webkit-font-smoothing:antialiased;
+    }
+
+    /* Achtergrond / sfeer */
+    .page-bg{
+      position:fixed;
+      inset:0;
+      z-index:-1;
+      background:
+        radial-gradient(circle at top,#2b2264 0,#050615 45%,#01020b 100%);
+      pointer-events:none;
+    }
+    .page-bg::before{
+      content:'';
+      position:absolute;
+      inset:0;
+      background:
+        repeating-linear-gradient(
+          to right,
+          rgba(255,255,255,.03) 0,
+          rgba(255,255,255,.03) 1px,
+          transparent 1px,
+          transparent 24px
+        ),
+        repeating-linear-gradient(
+          to bottom,
+          rgba(255,255,255,.03) 0,
+          rgba(255,255,255,.03) 1px,
+          transparent 1px,
+          transparent 24px
+        );
+      opacity:.23;
+      mix-blend-mode:soft-light;
+    }
+    .page-bg::after{
+      content:'';
+      position:absolute;
+      inset:0;
+      background:radial-gradient(circle at 10% 85%,rgba(53,240,201,.2),transparent 55%);
+      mix-blend-mode:screen;
+      opacity:.6;
+    }
+    body::before{
+      content:'';
+      position:fixed;
+      inset:0;
+      background:url('https://raw.githubusercontent.com/Koen-HowtoHack/codeblocksportal/main/cdn/cdn-bestanden/starfield.svg') center/600px repeat;
+      opacity:.12;
+      z-index:-1;
+      animation:stars 140s linear infinite;
+    }
+    @keyframes stars{
+      from{transform:translateY(0)}
+      to{transform:translateY(-2200px)}
+    }
+
+    /* HUD boven */
+    .hud{
+      position:fixed;
+      top:10px;
+      left:50%;
+      transform:translateX(-50%);
+      display:flex;
+      align-items:center;
+      gap:10px;
+      z-index:10;
+      padding:.3rem .9rem;
+      border-radius:999px;
+      background:rgba(3,4,18,.9);
+      border:1px solid rgba(255,255,255,.12);
+      backdrop-filter:blur(12px);
+    }
+    .logo-box{
+      width:30px;
+      height:22px;
+      border-radius:7px;
+      background:radial-gradient(circle at 30% 0,#3b2fa2,#050615);
+      display:grid;
+      place-items:center;
+      border:1px solid rgba(255,255,255,.18);
+      box-shadow:0 8px 20px rgba(0,0,0,.9);
+    }
+    .logo-pixel{
+      width:9px;
+      height:9px;
+      border-radius:3px;
+      background:var(--clr-primary);
+      box-shadow:0 0 12px rgba(115,85,255,.8);
+    }
+    .hud-text{
+      font-family:'Press Start 2P',monospace;
+      font-size:10px;
+      color:var(--clr-muted);
+      letter-spacing:.09em;
+    }
+    @media(max-width:520px){
+      .hud-text{display:none}
+    }
+
+    /* Main layout */
+    .screen{
+      width:min(95%,960px);
+      padding:clamp(18px,3vw,32px);
+    }
+
+    .card{
+      background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(11,13,36,.98));
+      border-radius:var(--radius);
+      border:1px solid rgba(255,255,255,.14);
+      box-shadow:
+        0 24px 70px rgba(0,0,0,.85),
+        0 0 0 1px rgba(115,85,255,.2);
+      padding:clamp(22px,3vw,34px);
+      position:relative;
+      overflow:hidden;
+      max-width:800px;
+      margin:0 auto;
+      opacity:0;
+      transform:translateY(16px) scale(.98);
+      animation:cardIn .55s ease .1s forwards;
+    }
+
+    .card::before{
+      content:'STEP_05';
+      position:absolute;
+      top:16px;
+      right:22px;
+      font-family:'Press Start 2P',monospace;
+      font-size:10px;
+      letter-spacing:.16em;
+      color:rgba(231,233,247,.16);
+    }
+    .card::after{
+      content:'';
+      position:absolute;
+      inset:-40%;
+      background:
+        radial-gradient(circle at 5% 0,rgba(53,240,201,.15),transparent 60%),
+        radial-gradient(circle at 95% 110%,rgba(161,139,255,.25),transparent 60%);
+      mix-blend-mode:soft-light;
+      opacity:.75;
+      pointer-events:none;
+    }
+
+    .eyebrow{
+      font-family:'Press Start 2P',monospace;
+      color:var(--clr-primary-light);
+      font-size:11px;
+      letter-spacing:.16em;
+      text-transform:uppercase;
+      margin-bottom:14px;
+      position:relative;
+      z-index:1;
+    }
+
+    .title-row{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:1rem;
+      position:relative;
+      z-index:1;
+    }
+
+    h1{
+      font-family:'Press Start 2P',monospace;
+      color:var(--clr-primary-light);
+      font-size:20px;
+      line-height:1.4;
+      margin-bottom:10px;
+      text-shadow:0 0 18px rgba(115,85,255,.7);
+    }
+
+    .pill{
+      font-size:.7rem;
+      text-transform:uppercase;
+      letter-spacing:.1em;
+      border-radius:999px;
+      padding:.25rem .7rem;
+      background:rgba(5,6,26,.9);
+      border:1px solid rgba(255,255,255,.22);
+      color:var(--clr-muted);
+      display:flex;
+      align-items:center;
+      gap:.3rem;
+    }
+    .pill-dot{
+      width:7px;
+      height:7px;
+      border-radius:50%;
+      background:var(--clr-accent);
+      box-shadow:0 0 14px rgba(53,240,201,.9);
+      animation:pulse 1.6s ease-out infinite;
+    }
+
+    .body-text{
+      margin-top:10px;
+      font-size:1rem;
+      color:var(--clr-muted);
+      max-width:620px;
+      line-height:1.7;
+      position:relative;
+      z-index:1;
+    }
+
+    .cta{
+      margin-top:22px;
+      display:flex;
+      align-items:center;
+      gap:1rem;
+      flex-wrap:wrap;
+      position:relative;
+      z-index:1;
+    }
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      gap:.5rem;
+      padding:.78rem 1.4rem;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.2);
+      background:linear-gradient(120deg,var(--clr-primary),var(--clr-primary-light));
+      color:#fff;
+      font-weight:800;
+      font-size:.9rem;
+      cursor:pointer;
+      text-decoration:none;
+      position:relative;
+      overflow:hidden;
+      isolation:isolate;
+      box-shadow:
+        0 0 0 1px rgba(115,85,255,.45),
+        0 18px 40px rgba(0,0,0,.95);
+      transform:translateY(0) scale(1);
+      transition:
+        transform .18s ease,
+        box-shadow .18s ease,
+        background-position .32s ease;
+      background-size:220% 220%;
+      background-position:0 50%;
+    }
+    .btn::after{
+      content:'';
+      position:absolute;
+      inset:0;
+      background:linear-gradient(90deg,rgba(255,255,255,.28),transparent 40%,transparent 60%,rgba(255,255,255,.28));
+      opacity:0;
+      transform:translateX(-40%);
+      mix-blend-mode:screen;
+      pointer-events:none;
+      transition:transform .45s ease, opacity .3s ease;
+    }
+    .btn:hover{
+      transform:translateY(-2px) scale(1.02);
+      box-shadow:
+        0 0 0 1px rgba(161,139,255,.85),
+        0 24px 52px rgba(0,0,0,1);
+      background-position:100% 50%;
+    }
+    .btn:hover::after{
+      opacity:1;
+      transform:translateX(40%);
+    }
+    .btn:focus-visible{
+      outline:2px solid var(--clr-accent);
+      outline-offset:3px;
+    }
+    .btn-icon{
+      font-size:.95em;
+    }
+
+    .hint{
+      font-size:.78rem;
+      color:var(--clr-muted);
+      display:flex;
+      align-items:center;
+      gap:.35rem;
+      opacity:.9;
+    }
+    .hint-dot{
+      width:7px;
+      height:7px;
+      border-radius:50%;
+      border:1px solid rgba(255,255,255,.5);
+      box-shadow:0 0 10px rgba(255,255,255,.4);
+    }
+
+    @keyframes cardIn{
+      to{opacity:1;transform:translateY(0) scale(1);}
+    }
+    @keyframes pulse{
+      0%,100%{transform:scale(1);opacity:.8;}
+      50%{transform:scale(1.25);opacity:1;}
+    }
+
+    @media(max-width:640px){
+      h1{font-size:18px;}
+      .card::before{display:none;}
+      .screen{padding:16px;}
+      .card{padding:18px 16px 20px;}
+    }
+  </style>
+</head>
+<body>
+  <div class="page-bg" aria-hidden="true"></div>
+
+  <div class="hud" aria-hidden="true">
+    <div class="logo-box"><div class="logo-pixel"></div></div>
+    <div class="hud-text">Codeblocks • One Click • Sim 5</div>
+  </div>
+
+  <main class="screen" role="main">
+    <section class="card" aria-labelledby="title">
+      <div class="eyebrow">Simulator • Stap 5</div>
+
+      <div class="title-row">
+        <h1 id="title">Ga je mee?</h1>
+        <div class="pill">
+          <span class="pill-dot" aria-hidden="true"></span>
+          <span>Story mode actief</span>
+        </div>
+      </div>
+
+      <p class="body-text">
+        Dan gaan we stap voor stap onderzoeken hoe dit zo ver heeft kunnen komen.
+      </p>
+
+      <div class="cta">
+        <a class="btn" href="/one-click/sim/6">
+          <span class="btn-icon">▶</span>
+          <span>Volgende stap</span>
+        </a>
+        <div class="hint">
+          <span class="hint-dot" aria-hidden="true"></span>
+          <span>Tip: onthoud wat je ziet, je hebt het later nodig.</span>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

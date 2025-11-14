@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>One Click — Sim 1</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --clr-bg:#050615;
+      --clr-bg-deep:#02030a;
+      --clr-primary:#7355ff;
+      --clr-primary-light:#a18bff;
+      --clr-accent:#35f0c9;
+      --clr-text:#e7e9f7;
+      --clr-muted:#8a8fae;
+      --radius:14px;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      background:var(--clr-bg);
+      color:var(--clr-text);
+      overflow:hidden;
+      -webkit-font-smoothing:antialiased;
+    }
+
+    .screen{
+      position:relative;
+      min-height:100vh;
+      display:grid;
+      place-items:center;
+      padding:clamp(16px,3vw,32px);
+    }
+
+    .card{
+      max-width:900px;
+      width:100%;
+      background:radial-gradient(circle at 0 0,rgba(161,139,255,.28),rgba(5,6,21,.96));
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:var(--radius);
+      box-shadow:
+        0 22px 60px rgba(0,0,0,.75),
+        0 0 0 1px rgba(115,85,255,.22);
+      padding:clamp(18px,3.2vw,32px);
+      opacity:0;
+      transform:translateY(16px) scale(.99);
+      animation:fadeIn .6s ease .9s forwards;
+      position:relative;
+      overflow:hidden;
+    }
+    .card::before{
+      content:"SIM_01";
+      position:absolute;
+      top:14px;
+      right:18px;
+      font-family:'Press Start 2P',monospace;
+      font-size:9px;
+      letter-spacing:.16em;
+      color:rgba(255,255,255,.12);
+    }
+    .card::after{
+      content:"";
+      position:absolute;
+      inset:-40%;
+      background:
+        radial-gradient(circle at 10% 10%,rgba(53,240,201,.18),transparent 55%),
+        radial-gradient(circle at 90% 100%,rgba(115,85,255,.2),transparent 60%);
+      mix-blend-mode:soft-light;
+      opacity:.75;
+      pointer-events:none;
+    }
+
+    .eyebrow{
+      font-family:'Press Start 2P',monospace;
+      color:var(--clr-primary-light);
+      letter-spacing:1px;
+      font-size:11px;
+      margin-bottom:10px;
+      text-transform:uppercase;
+    }
+    h1{
+      font-family:'Press Start 2P',monospace;
+      font-size:18px;
+      line-height:1.35;
+      margin-bottom:12px;
+      color:var(--clr-primary-light);
+      text-shadow:0 0 16px rgba(115,85,255,.7);
+    }
+    p{color:var(--clr-text);opacity:.96;font-size:.95rem;line-height:1.6}
+    .muted{color:var(--clr-muted);opacity:.95}
+    .stack{display:grid;gap:10px;position:relative;z-index:1}
+    .stack + .stack{margin-top:14px}
+
+    .btn{
+      margin-top:20px;
+      display:inline-flex;
+      align-items:center;
+      gap:.5rem;
+      padding:.7rem 1.3rem;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.16);
+      background:linear-gradient(120deg,var(--clr-primary),var(--clr-primary-light));
+      color:#fff;
+      font-weight:800;
+      font-size:.9rem;
+      cursor:pointer;
+      text-decoration:none;
+      position:relative;
+      overflow:hidden;
+      isolation:isolate;
+      box-shadow:
+        0 0 0 1px rgba(115,85,255,.45),
+        0 16px 40px rgba(0,0,0,.9);
+      transform:translateY(0) scale(1);
+      transition:
+        transform .18s ease,
+        box-shadow .18s ease,
+        border-color .18s ease,
+        background-position .3s ease;
+      background-size:220% 220%;
+      background-position:0 50%;
+    }
+    .btn-icon{
+      font-size:.95em;
+    }
+    .btn::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:linear-gradient(90deg,rgba(255,255,255,.3),transparent 40%,transparent 60%,rgba(255,255,255,.3));
+      opacity:0;
+      transform:translateX(-35%);
+      mix-blend-mode:screen;
+      pointer-events:none;
+      transition:transform .45s ease, opacity .3s ease;
+    }
+    .btn:hover{
+      transform:translateY(-2px) scale(1.02);
+      box-shadow:
+        0 0 0 1px rgba(161,139,255,.9),
+        0 24px 46px rgba(0,0,0,1);
+      background-position:100% 50%;
+    }
+    .btn:hover::after{
+      opacity:1;
+      transform:translateX(40%);
+    }
+    .btn:focus-visible{
+      outline:2px solid var(--clr-accent);
+      outline-offset:3px;
+    }
+
+    /* Pixel sweep overlay */
+    .pixel-sweep{
+      position:fixed;
+      inset:0;
+      background:#000;
+      z-index:40;
+      pointer-events:none;
+      animation:sweep 1.1s cubic-bezier(.22,.9,.3,1) forwards;
+    }
+    .pixel-sweep::before{
+      content:'';
+      position:absolute;
+      inset:0;
+      background:
+        repeating-linear-gradient(
+          90deg,
+          rgba(115,85,255,.9) 0 14px,
+          rgba(115,85,255,.35) 14px 28px,
+          rgba(161,139,255,.22) 28px 42px,
+          rgba(5,4,6,1) 42px 56px
+        );
+      filter:saturate(1.2) contrast(1.15);
+      image-rendering:pixelated;
+      mix-blend-mode:screen;
+      animation:pixel-wobble .9s linear infinite;
+    }
+
+    @keyframes sweep{
+      from{transform:translateX(0)}
+      to{transform:translateX(-100%)}
+    }
+    @keyframes pixel-wobble{
+      0%{transform:translateX(0)}
+      50%{transform:translateX(-12px)}
+      100%{transform:translateX(0)}
+    }
+    @keyframes fadeIn{
+      to{opacity:1;transform:translateY(0) scale(1)}
+    }
+
+    /* Starfield bg */
+    body::before{
+      content:'';
+      position:fixed;
+      inset:0;
+      background:url('https://raw.githubusercontent.com/Koen-HowtoHack/codeblocksportal/main/cdn/cdn-bestanden/starfield.svg') center/600px repeat;
+      opacity:.14;
+      z-index:-1;
+      animation:stars 140s linear infinite;
+    }
+    @keyframes stars{
+      from{transform:translateY(0)}
+      to{transform:translateY(-2200px)}
+    }
+
+    /* HUD */
+    .hud{
+      position:fixed;
+      top:10px;
+      left:50%;
+      transform:translateX(-50%);
+      display:flex;
+      align-items:center;
+      gap:10px;
+      z-index:10;
+      opacity:.9;
+      padding:.3rem .8rem;
+      border-radius:999px;
+      background:rgba(3,4,20,.82);
+      border:1px solid rgba(255,255,255,.08);
+      backdrop-filter:blur(10px);
+    }
+    .logo-box{
+      width:32px;
+      height:24px;
+      border-radius:6px;
+      background:linear-gradient(180deg,#000,#111);
+      display:grid;
+      place-items:center;
+      border:2px solid rgba(255,255,255,.06);
+      box-shadow:0 10px 26px rgba(0,0,0,.9);
+    }
+    .logo-pixel{
+      width:10px;
+      height:10px;
+      background:var(--clr-primary);
+      border-radius:2px;
+      box-shadow:0 3px 10px rgba(115,85,255,.6);
+    }
+    .hud-text{
+      font-family:'Press Start 2P',monospace;
+      font-size:10px;
+      color:var(--clr-muted);
+      letter-spacing:.08em;
+    }
+
+    @media(max-width:560px){
+      h1{font-size:16px}
+      .hud-text{display:none}
+    }
+  </style>
+</head>
+<body>
+  <div class="pixel-sweep" aria-hidden="true"></div>
+
+  <div class="hud" aria-hidden="true">
+    <div class="logo-box"><div class="logo-pixel"></div></div>
+    <div class="hud-text">Codeblocks • One Click</div>
+  </div>
+
+  <main class="screen" role="main">
+    <section class="card" aria-labelledby="title">
+      <div class="eyebrow">Simulator • Level 1</div>
+      <h1 id="title">Welkom in deze simulator van Codeblocks</h1>
+
+      <div class="stack">
+        <p class="muted">
+          <strong>Credits</strong> | <strong>Cybersave Yourself</strong> voor de theorie-video's en lesstof.
+        </p>
+        <p class="muted">
+          Credits aan de developers van <strong>Codeblocks</strong> voor het bouwen van de simulator en het web-ontwerp.
+        </p>
+      </div>
+
+      <div class="stack">
+        <p>Nu we dat hebben gehad, laten we doorgaan naar het <em>avontuur…</em></p>
+      </div>
+
+      <a class="btn" href="/sim/2" id="continueBtn">
+        <span class="btn-icon">▶</span>
+        <span>Ga door</span>
+      </a>
+    </section>
+  </main>
+
+  <script>
+    // --- SIMPLE SYNTH SOUND ENGINE (Web Audio, geen externe files) ---
+    let audioCtx = null;
+
+    function getAudioCtx(){
+      if(!audioCtx){
+        const Ctx = window.AudioContext || window.webkitAudioContext;
+        if(!Ctx) return null;
+        audioCtx = new Ctx();
+      }
+      return audioCtx;
+    }
+
+    // Generic tone helper: frequenties in Hz, duur in ms
+    function playTone(opts = {}){
+      const ctx = getAudioCtx();
+      if(!ctx) return;
+
+      const {
+        startFreq = 440,
+        endFreq = 440,
+        duration = 180,
+        type = 'sine',
+        volume = 0.15,
+      } = opts;
+
+      const now = ctx.currentTime;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+
+      osc.type = type;
+      osc.frequency.setValueAtTime(startFreq, now);
+      if(endFreq !== startFreq){
+        osc.frequency.linearRampToValueAtTime(endFreq, now + duration / 1000);
+      }
+
+      gain.gain.setValueAtTime(0, now);
+      gain.gain.linearRampToValueAtTime(volume, now + 0.01);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + duration / 1000);
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+
+      osc.start(now);
+      osc.stop(now + duration / 1000 + 0.05);
+    }
+
+    // Preset sounds
+    function playSweepWhoosh(){
+      // Korte "time-jump" sweep
+      playTone({
+        startFreq: 1000,
+        endFreq: 180,
+        duration: 420,
+        type: 'sawtooth',
+        volume: 0.18
+      });
+    }
+
+    function playHoverBleep(){
+      playTone({
+        startFreq: 650,
+        endFreq: 850,
+        duration: 90,
+        type: 'square',
+        volume: 0.11
+      });
+    }
+
+    function playClickConfirm(){
+      playTone({
+        startFreq: 320,
+        endFreq: 220,
+        duration: 130,
+        type: 'square',
+        volume: 0.14
+      });
+      // kleine tweede toon voor "ok"
+      setTimeout(()=>playTone({
+        startFreq: 700,
+        endFreq: 900,
+        duration: 110,
+        type: 'sine',
+        volume: 0.11
+      }), 80);
+    }
+
+    // --- INIT / EVENTS ---
+    const sweepEl = document.querySelector('.pixel-sweep');
+    const continueBtn = document.getElementById('continueBtn');
+
+    // Probeer audio-context te unlocken bij eerste echte interactie
+    function unlockAudioOnce(){
+      const ctx = getAudioCtx();
+      if(ctx && ctx.state === 'suspended'){
+        ctx.resume();
+      }
+      document.removeEventListener('pointerdown', unlockAudioOnce);
+      document.removeEventListener('keydown', unlockAudioOnce);
+    }
+    document.addEventListener('pointerdown', unlockAudioOnce, { once:true });
+    document.addEventListener('keydown', unlockAudioOnce, { once:true });
+
+    // Whoosh bij binnenkomen (na klein moment zodat animatie start)
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        playSweepWhoosh();
+      }, 150);
+    });
+
+    // Bleep bij hover / focus op de knop
+    continueBtn.addEventListener('mouseenter', () => {
+      playHoverBleep();
+    });
+    continueBtn.addEventListener('focus', () => {
+      playHoverBleep();
+    });
+
+    // Confirm sound bij click
+    continueBtn.addEventListener('click', (e) => {
+      // Laat de sound even spelen voordat de pagina direct weg is
+      playClickConfirm();
+      // kleine delay voor effect, maar niet storend (100ms)
+      e.preventDefault();
+      setTimeout(() => {
+        window.location.href = continueBtn.href;
+      }, 120);
+    });
+
+    // (optioneel) Pixel-sweep verbergen voor terug-navigatie via history:
+    // if(sessionStorage.getItem('sim1-seen')){
+    //   sweepEl.style.display = 'none';
+    // } else {
+    //   sessionStorage.setItem('sim1-seen','1');
+    // }
+  </script>
+</body>
+</html>
